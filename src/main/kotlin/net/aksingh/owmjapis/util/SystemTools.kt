@@ -17,4 +17,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.util
+
+import java.net.*
+
+/**
+ * Provides methods for system handling.
+ *
+ * @author Ashutosh Kumar Singh
+ * @version 2017-11-08
+ * @since 2.5.1.0
+ */
+internal class SystemTools {
+
+  companion object Static {
+
+    /**
+     * Get the system proxy configured
+     *
+     * @return Proxy default to the system
+     */
+    @JvmStatic
+    fun getSystemProxy(): Proxy {
+      var sysProxy = Proxy.NO_PROXY
+
+      var proxyList: List<*>? = null
+      try {
+        proxyList = ProxySelector.getDefault().select(URI("http://localhost/"))
+      } catch (e: URISyntaxException) {
+        e.printStackTrace()
+      }
+
+      if (proxyList != null) {
+        val iter = proxyList.iterator()
+        while (iter.hasNext()) {
+          sysProxy = iter.next() as java.net.Proxy
+        }
+      }
+
+      return sysProxy
+    }
+
+    /**
+     * Set the proxy's authentication details
+     *
+     * @param user Username for the proxy
+     * @param pass Password for the proxy
+     */
+    @JvmStatic
+    fun setProxyAuthDetails(user: String, pass: String) {
+      Authenticator.setDefault(object : Authenticator() {
+        public override fun getPasswordAuthentication(): PasswordAuthentication {
+          return PasswordAuthentication(user, pass.toCharArray())
+        }
+      })
+    }
+  }
+}

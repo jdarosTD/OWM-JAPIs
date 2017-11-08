@@ -17,4 +17,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.model.param
+
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+
+data class Snow(
+  @field:SerializedName("3h")
+  val snowVol3h: Int? = null
+) {
+
+  fun hasSnowVol3h(): Boolean = snowVol3h != null
+
+  fun toJson(): String {
+    return GsonBuilder().create().toJson(this)
+  }
+
+  fun toJsonPretty(): String {
+    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+  }
+}

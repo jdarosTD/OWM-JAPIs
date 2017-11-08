@@ -17,4 +17,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.api
+
+class APIException(val code: Int, val info: String) : Exception() {
+
+  override val message: String?
+    get() = createMessage()
+
+  fun createMessage(): String {
+    return "API call gave error: " + code + " - " + info
+  }
+}

@@ -17,4 +17,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.model.param
+
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+
+data class Wind(
+  @field:SerializedName("speed")
+  val speed: Float? = null,
+
+  @field:SerializedName("deg")
+  val degree: Float? = null,
+
+  @field:SerializedName("gust")
+  val gust: Float? = null
+) {
+
+  fun hasSpeed(): Boolean = speed != null
+
+  fun hasDegree(): Boolean = degree != null
+
+  fun hasGust(): Boolean = gust != null
+
+  fun toJson(): String {
+    return GsonBuilder().create().toJson(this)
+  }
+
+  fun toJsonPretty(): String {
+    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+  }
+}

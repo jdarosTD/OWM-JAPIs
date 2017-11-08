@@ -17,4 +17,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.api
+
+import net.aksingh.owmjapis.model.DailyForecast
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface DailyForecastAPI {
+
+  @GET("forecast/daily")
+  fun getDailyForecastByCityName(
+    @Query("q") name: String,
+    @Query("cnt") count: Byte
+  ): Call<DailyForecast>
+
+  @GET("forecast/daily")
+  fun getDailyForecastByCityId(
+    @Query("id") id: Int,
+    @Query("cnt") count: Byte
+  ): Call<DailyForecast>
+
+  @GET("forecast/daily")
+  fun getDailyForecastByCoords(
+    @Query("lat") lat: Float,
+    @Query("lon") lon: Float,
+    @Query("cnt") count: Byte
+  ): Call<DailyForecast>
+
+  @GET("forecast/daily")
+  fun getDailyForecastByZipCode(
+    @Query("zip") zip: String,
+    @Query("cnt") count: Byte
+  ): Call<DailyForecast>
+}

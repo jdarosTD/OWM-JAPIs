@@ -2,27 +2,31 @@
 
 ####Java Library for OpenWeatherMap.org Weather APIs
 
-OWM JAPIs lets you develop weather-aware applications for **Java and Android platforms** in minimum time using OWM JAPIs, an easy-to-use, detailed and documented weather APIs' wrapper library for retrieving weather data from OpenWeatherMap.org. You can easily **retrieve and use weather data** in your applications using this library.
+OWM JAPIs lets you develop weather-aware applications for **Java, Android, and Kotlin** platforms in minimum time. It is an easy-to-use, well-documented wrapper library for OpenWeatherMap.org's Weather APIs. You can easily **retrieve and use weather data** in your applications using this library.
 
-OWM JAPIs allows you to **fetch weather data in only 3-5 lines of code** (excluding any other/skeleton code, of course). You can develop applications and services for multiple platforms using this library, such as Windows, Mac OS X, Linux, and Android.
+OWM JAPIs allows you to **fetch weather data in only 3-5 lines of code**. You can develop applications and services for multiple platforms using this library, such as Windows, Mac OS X, Linux, and Android.
 
-Homepage: http://code.aksingh.net/owm-japis
+*Homepage:* [http://go.aksingh.net/owm-japis](http://go.aksingh.net/owm-japis)
 
 
 
 ###Why to use OWM JAPIs?
 1. Free
 2. Easy to use
-3. Minimizes your code
+3. Supports re-use
+4. Minimizes the code
+5. Developer-friendly
 
-OWM JAPIs lets you **focus just on your application's logic** and **weather retrieval code is provided** by this library. Additionally, weather retrieval code becomes very short using this library – as less as 3-5 lines of code can get you weather data from OpenWeatherMap.org in your Java or Android application. **Surprising, right? Have a look on the example(s) below.**
+With OWM JAPIs, you can **focus just on your application's logic** and **delegate weather retrieval** to this library. As a bonus, weather retrieval code becomes very short using this library - as less as 3-5 lines of code can get you weather data from OpenWeatherMap.org in your Java, Android, or Kotlin application.
+
+**Surprised? Have a look on the example(s) below.**
 
 
 
 ##How to use OWM JAPIs?
-Download the library's source and binaries from [OWM JAPIs Downloads][1].
+Do you use Maven, Gradle, or some another build tool? [OWM JAPIs is available in Maven Central repository](http://search.maven.org/#search%7Cga%7C1%7Cowm-japis).
 
-Do use Maven, Gradle or an build tool? [OWM JAPIs is available in Maven Central repository][10].
+No? Not an issue. You can download the releases (source and binaries) from [OWM JAPIs Downloads](http://go.aksingh.net/owm-japis-dloads).
 
 
 
@@ -30,92 +34,28 @@ Do use Maven, Gradle or an build tool? [OWM JAPIs is available in Maven Central 
 ###2.5 (Compatible with OpenWeatherMap.org's API v2.5)
 
 
-####2.5.0.5 (latest)
+####2.5.1.0
 
-**Bug-fix version:**
+**Major version:**
 
-1. Fixed 1h and 3h parameter in Rain and Snow.
-2. Added Snow in CurrentWeather.
-3. Added proxy support to fetch data via a proxy server.
-
-
-####2.5.0.4
-
-**Bug-fix version:**
-
-1. Fixed lang parameter bug.
-2. Library supports serialization and parcelization.
-3. Uploaded the library to Maven Central repository.
-
-
-####2.5.0.3
-
-**Implemented:**
-
-1. Current Weather
-2. Daily Forecasts
-3. Hourly Forecasts
-
-**New Features:**
-
-1. Faster than ever before
-2. Raw Response for Caching purposes
-3. APIs' URL building using StringBuilder
-4. Multi-lingual (multiple languages) support
-5. Support for external/third-party HTTP libraries (like Apache's HttpComponents)
-6. Units and Language enums for setting configuration easily and correctly
-7. Better maintain-able source code (for developers)
-8. Ported the project to Gradle (for developers)
-
-**Changed:**
-
-1. Package's name from net.aksingh.java.api.owm to net.aksingh.owmjapis
-2. Class's name from CurrentWeatherData to CurrentWeather
-3. Class's name from DailyForecastData to DailyForecast
-4. Class's name from ForecastWeatherData to HourlyForecast
-5. Some functions' name and signature
-
-**Apologies for making such changes, but it was required to make things simpler. Don't worry, they're not going to change again. :)**
-
-
-####2.5.0.2
-
-**Bug-fix version:**
-
-1. Fixed bugs which caused wrong parsing of date and time.
-2. Improved code formatting and readability (for developers).
-
-
-####2.5.0.1
-
-**Implemented:**
-
-1. Current Weather
-2. Weather Forecasts
-3. Daily Forecasts
-4. Wind degree to direction converter
-
-**Not implemented but planned:**
-
-1. Searching of City
-2. Weather Maps
-3. Country code to name converter
-4. Direction code to name converter
+1. Re-wrote whole lib. in Kotlin
+2. Supports retrieving Current Weather, Hourly Forecast, and Daily Forecast
+3. Requires min. Java 1.7 platform and supports Java, Kotlin, and Android now
 
 
 
 ##How to use OWM JAPIs?
-Anyone with little coding knowledge of Java will feel at home while using this library.  **Identifiers are written to be self-explanatory and APIs' documentation** is also provided. It makes the coding process very easy, even for beginners.
+Anyone with little coding knowledge of Java or Kotlin will feel at home while using this library.  **Identifiers are written to be self-explanatory and APIs' documentation** (java docs) is also provided along with OWM JAPIs.
 
 1. Add this JAR file in your project's libraries:
-    1. owm-japis.jar
+    1. owm-japis-{VERSION}.jar
 2. Write your code as such:
-    1. Create and initialize object {obj1} of "OpenWeatherMap" class
+    1. Create and initialize object {obj1} of "OWM" class
     2. Call this object's {obj1} functions to get the desired weather data (such as current weather, daily forecast, etc.).
     3. The data is returned as a new object {obj2} of a compatible class based on the type of asked/retrieved weather data (current weather data comes in a different class's object than daily forecast data).
     3. Call this returned object's {obj2} functions to get the required information from the collective weather data (such as temperature, pressure, wind speed, etc.).
 
-Kindly have a look on the example(s) below for clear understanding.
+Is it hard to understand the English of programming? Well, you are not the only one. I feel the same. Kindly have a look on the example(s) below for a clear understanding.
 
 
 
@@ -123,19 +63,17 @@ Kindly have a look on the example(s) below for clear understanding.
 ### Basic Example
 ####Sample Code
 
-    import java.io.IOException;
-    import java.net.MalformedURLException;
-    import net.aksingh.owmjapis.CurrentWeather;
-    import net.aksingh.owmjapis.OpenWeatherMap;
-    import org.json.JSONException;
+    import net.aksingh.owmjapis.core.OpenWeatherMap;
+    import net.aksingh.owmjapis.api.APIException;
+    import net.aksingh.owmjapis.model.CurrentWeather;
     
     public class OwmJapisExample1 {
     
         public static void main(String[] args)
-                throws IOException, MalformedURLException, JSONException {
+                throws APIException {
                 
-            // declaring object of "OpenWeatherMap" class
-            OpenWeatherMap owm = new OpenWeatherMap("");
+            // declaring object of "OWM" class
+            OWM owm = new OWM("YOUR-API-KEY-HERE");
     
             // getting current weather data for the "London" city
             CurrentWeather cwd = owm.currentWeatherByCityName("London");
@@ -144,57 +82,55 @@ Kindly have a look on the example(s) below for clear understanding.
             System.out.println("City: " + cwd.getCityName());
             
             // printing the max./min. temperature
-            System.out.println("Temperature: " + cwd.getMainInstance().getMaxTemperature()
-                                + "/" + cwd.getMainInstance().getMinTemperature() + "\'F");
+            System.out.println("Temperature: " + cwd.getMainData().getTempMax()
+                                + "/" + cwd.getMainData().getTempMin() + "\'K");
         }
     }
 
 ####Output
 
     City: London
-    Temperature: 73.4/68.72 'F
+    Temperature: 73.4/68.72 'K
 
 
 ###Advance Example
-You can simply use the APIs (as given in basic example) for learning, testing or experimenting with the functions provided in this library. But it may not be good enough for production or deployment environment.
+You can simply use the APIs (as given in the basic example) for learning, testing or experimenting with the functions provided in this library. But it may not be good enough for production or deployment environment. Don't you agree?
 
-Professionally, you should always **write code which can handle errors/exceptions** at the runtime. OWM JAPIs also helps here – by providing checker functions which allows you to **check if a data is available or not**, i.e., that particular data is retrieved and parsed properly or not. Of course, exception handling can still be used, but these functions are really useful and make the retrieved-data-error-handling task very simple.
+Professionally, you should always **write code which can handle errors** as best as possible. OWM JAPIs helps here too by providing checker functions which allows you to **check if a data is available or not**, i.e., that particular data is retrieved and parsed properly or not. Of course, exception handling can still be used, but these functions are really useful and make the retrieved-data-error-handling task very simple.
 
-Using OWM JAPIs, you can always check if a particular data is available or not. This is done by using the **has<DataName>()** functions. For example, **hasResponseCode()** function checks if the retrieved data has a response code or not; and if available, response code can be used to check if the whole data was downloaded and parsed correctly or not.
+Using OWM JAPIs, you can always check if a particular data is available or not. This is done by using the **has{DATA-NAME}()** functions. For example, **hasRespCode()** function checks if the retrieved data has a response code or not. And if available, response code can be used to check if the whole data was downloaded and parsed correctly or not, as you can see in the example below.
 
 ####Sample Code
 
-    import java.io.IOException;
-    import java.net.MalformedURLException;
-    import net.aksingh.owmjapis.CurrentWeather;
-    import net.aksingh.owmjapis.OpenWeatherMap;
-    import org.json.JSONException;
+    import net.aksingh.owmjapis.core.OpenWeatherMap;
+    import net.aksingh.owmjapis.api.APIException;
+    import net.aksingh.owmjapis.model.CurrentWeather;
     
     public class OwmJapisExample2 {
     
         public static void main(String[] args)
-                throws IOException, MalformedURLException, JSONException {
-    
-            // declaring object of "OpenWeatherMap" class
-            OpenWeatherMap owm = new OpenWeatherMap("");
+                throws APIException {
+            
+            // declaring object of "OWM" class
+            OWM owm = new OWM("YOUR-API-KEY-HERE");
     
             // getting current weather data for the "London" city
             CurrentWeather cwd = owm.currentWeatherByCityName("London");
-    
+            
             // checking data retrieval was successful or not
-            if (cwd.isValid()) {
-    
+            if (cwd.hasRespCode() && cwd.getRespCode() == 200) {
+            
                 // checking if city name is available
                 if (cwd.hasCityName()) {
                     //printing city name from the retrieved data
                     System.out.println("City: " + cwd.getCityName());
                 }
-    
+                
                 // checking if max. temp. and min. temp. is available
-                if (cwd.getMainInstance().hasMaxTemperature() && cwd.getMainInstance().hasMinTemperature()) {
+                if (cwd.hasMainData() && cwd.getMainData().hasTempMax() && cwd.getMainData().hasTempMin()) {
                     // printing the max./min. temperature
-                    System.out.println("Temperature: " + cwd.getMainInstance().getMaxTemperature()
-                                + "/" + cwd.getMainInstance().getMinTemperature() + "\'F");
+                    System.out.println("Temperature: " + cwd.getMainData().getTempMax()
+                                + "/" + cwd.getMainData().getTempMin() + "\'K");
                 }
             }
         }
@@ -203,55 +139,41 @@ Using OWM JAPIs, you can always check if a particular data is available or not. 
 ####Output
 
     City: London
-    Temperature: 73.4/68.72 'F
+    Temperature: 73.4/68.72 'K
 
 
 
 ##Source code
-Download the library's source code from [OWM JAPIs Source][2].
+Download the library's source code from [OWM JAPIs Source](https://code.aksingh.net/owm-japis/src).
 
 
 
 ##Bugs / Requests
 Got a problem, error or bug in the library? Or want a new feature that's not already available in OWM JAPIs?
 
-Kindly post bugs or feature requests at [OWM JAPIs Issues][3] and I will try to solve/add it in the next release.
+Kindly post bugs or feature requests at [OWM JAPIs Issues](https://code.aksingh.net/owm-japis/issues) and I will try to solve/add it in the next release.
 
 
 
 ##Developer
-**Ashutosh Kumar Singh** | [AKSingh.net][4] | [me@aksingh.net][9]
+**Ashutosh Kumar Singh** | [www.aksingh.net](https://www.aksingh.net/) | [ashutosh@aksingh.net](mailto:ashutosh@aksingh.net)
 
+and contributors. Do you wish to contribute? Just fork this repo on GitHub or BitBucket and send a pull request.
 
 
 ##Credits
-1. [OpenWeatherMap.org][5]
-for providing free weather data and creating easy-to-use web APIs.
+1. [OpenWeatherMap.org](https://openweathermap.org/)
+for providing free weather data and creating easy-to-use APIs.
 
-2. [JSON.org][6] 
-for providing such a great data interchange language and its library in Java.
-
-3. [ForecastIO-Lib-Java][8]
+2. [ForecastIO-Lib-Java](https://github.com/dvdme/forecastio-lib-java)
 for providing ideas like support for third-party Http libraries.
 
-4. [Bug Reporters][3]
-for reporting bugs, and even finding and sharing possible solutions for them.
+3. [You, for supporting OWM JAPIs](https://code.aksingh.net/owm-japis/issues)
+and for reporting bugs, and even finding and sharing possible solutions for them.
 
 
 
 ##License
-Copyright (c) 2013-2014 Ashutosh Kumar Singh `<me@aksingh.net>`
+Copyright (c) 2013-2017 Ashutosh Kumar Singh `<ashutosh@aksingh.net>`
   
-Released under the terms of the [MIT license][7]. It's open source and developer-friendly.
-
-
-  [1]: http://code.aksingh.net/owm-japis/downloads
-  [2]: http://code.aksingh.net/owm-japis/src
-  [3]: http://code.aksingh.net/owm-japis/issues
-  [4]: http://www.aksingh.net/
-  [5]: http://openweathermap.org/
-  [6]: http://www.json.org/java/index.html
-  [7]: http://opensource.org/licenses/MIT
-  [8]: https://github.com/dvdme/forecastio-lib-java
-  [9]: mailto:me@aksingh.net
-  [10]: http://search.maven.org/#search%7Cga%7C1%7Cowm-japis
+Released under the terms of the [MIT license](https://opensource.org/licenses/MIT). It's open source and developer-friendly.

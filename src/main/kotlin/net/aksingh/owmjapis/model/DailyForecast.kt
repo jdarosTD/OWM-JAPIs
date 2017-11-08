@@ -17,4 +17,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.model
+
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+import net.aksingh.owmjapis.model.param.City
+import net.aksingh.owmjapis.model.param.Data
+
+data class DailyForecast(
+  @field:SerializedName("cod")
+  var respCode: String? = null,
+
+  @field:SerializedName("message")
+  var message: Float? = null,
+
+  @field:SerializedName("city")
+  var cityData: City? = null,
+
+  @field:SerializedName("cnt")
+  var dataCount: Int? = null,
+
+  @field:SerializedName("list")
+  var dataList: List<Data?>? = null
+) {
+
+  fun hasRespCode(): Boolean = respCode != null
+
+  fun hasMessage(): Boolean = message != null
+
+  fun hasCityData(): Boolean = cityData != null
+
+  fun hasDataCount(): Boolean = dataCount != null
+
+  fun hasDataList(): Boolean = dataList != null
+
+  companion object Static {
+    @JvmStatic
+    fun fromJson(json: String): DailyForecast {
+      return GsonBuilder().create().fromJson(json, DailyForecast::class.java)
+    }
+
+    @JvmStatic
+    fun toJson(pojo: DailyForecast): String {
+      return GsonBuilder().create().toJson(pojo)
+    }
+
+    @JvmStatic
+    fun toJsonPretty(pojo: DailyForecast): String {
+      return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
+    }
+  }
+}

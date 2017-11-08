@@ -17,4 +17,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.model.param
+
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+
+data class City(
+  @field:SerializedName("id")
+  val id: Int? = null,
+
+  @field:SerializedName("name")
+  val name: String? = null,
+
+  @field:SerializedName("coord")
+  val coordData: Coord? = null,
+
+  @field:SerializedName("country")
+  val countryCode: String? = null,
+
+  @field:SerializedName("population")
+  val population: Long? = null
+) {
+
+  fun hasId(): Boolean = id != null
+
+  fun hasName(): Boolean = name != null
+
+  fun hasCoordData(): Boolean = coordData != null
+
+  fun hasCountryCode(): Boolean = countryCode != null
+
+  fun hasPopulation(): Boolean = population != null
+
+  fun toJson(): String {
+    return GsonBuilder().create().toJson(this)
+  }
+
+  fun toJsonPretty(): String {
+    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+  }
+}

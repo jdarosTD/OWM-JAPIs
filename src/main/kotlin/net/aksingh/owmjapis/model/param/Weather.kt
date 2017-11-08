@@ -17,4 +17,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.model.param
+
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+
+data class Weather(
+  @field:SerializedName("id")
+  val conditionId: Int? = null,
+
+  @field:SerializedName("main")
+  val mainInfo: String? = null,
+
+  @field:SerializedName("description")
+  val moreInfo: String? = null,
+
+  @field:SerializedName("icon")
+  val iconCode: String? = null
+) {
+
+  fun hasConditionId(): Boolean = conditionId != null
+
+  fun hasMainInfo(): Boolean = mainInfo != null
+
+  fun hasMoreInfo(): Boolean = moreInfo != null
+
+  fun hasIconCode(): Boolean = iconCode != null
+
+  fun toJson(): String {
+    return GsonBuilder().create().toJson(this)
+  }
+
+  fun toJsonPretty(): String {
+    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+  }
+}

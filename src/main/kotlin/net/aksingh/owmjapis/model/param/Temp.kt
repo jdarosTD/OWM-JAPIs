@@ -17,4 +17,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.model.param
+
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+
+data class Temp(
+  @field:SerializedName("day")
+  val tempDay: Float? = null,
+
+  @field:SerializedName("min")
+  val tempMin: Float? = null,
+
+  @field:SerializedName("max")
+  val tempMax: Float? = null,
+
+  @field:SerializedName("night")
+  val tempNight: Float? = null,
+
+  @field:SerializedName("eve")
+  val tempEvening: Float? = null,
+
+  @field:SerializedName("morn")
+  val tempMorning: Float? = null
+) {
+
+  fun hasTempDay(): Boolean = tempDay != null
+
+  fun hasTempMin(): Boolean = tempMin != null
+
+  fun hasTempMax(): Boolean = tempMax != null
+
+  fun hasTempNight(): Boolean = tempNight != null
+
+  fun hasTempEvening(): Boolean = tempEvening != null
+
+  fun hasTempMorning(): Boolean = tempMorning != null
+
+  fun toJson(): String {
+    return GsonBuilder().create().toJson(this)
+  }
+
+  fun toJsonPretty(): String {
+    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+  }
+}

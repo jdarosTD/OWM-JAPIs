@@ -17,4 +17,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.util
+
+import okhttp3.OkHttpClient
+
+/**
+ * Provides methods for OkHttp lib. handling.
+ *
+ * @author Ashutosh Kumar Singh
+ * @version 2017-11-08
+ * @since 2.5.1.0
+ */
+internal class OkHttpTools {
+
+  companion object Static {
+
+    /**
+     * Add a query parameter to OkHttpClient.Builder instance.
+     * It is used to add default parameters to Retrofit instance.
+     *
+     * @param httpClientBuilder OkHttpClient.Builder instance
+     * @param key Key in the query string
+     * @param value Value in the query string
+     */
+    @JvmStatic
+    fun addQueryParameter(httpClientBuilder: OkHttpClient.Builder, key: String, value: String) {
+      httpClientBuilder.addInterceptor { chain ->
+        val original = chain.request()
+        val originalHttpUrl = original.url()
+
+        val url = originalHttpUrl.newBuilder()
+          .addQueryParameter(key, value)
+          .build()
+
+        val requestBuilder = original.newBuilder()
+          .url(url)
+
+        val request = requestBuilder.build()
+
+        chain.proceed(request)
+      }
+    }
+  }
+}

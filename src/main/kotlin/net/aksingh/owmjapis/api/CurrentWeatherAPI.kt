@@ -17,4 +17,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.api
+
+import net.aksingh.owmjapis.model.CurrentWeather
+import net.aksingh.owmjapis.model.CurrentWeatherList
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface CurrentWeatherAPI {
+
+  @GET("weather")
+  fun getCurrentWeatherByCityName(
+    @Query("q") name: String
+  ): Call<CurrentWeather>
+
+  @GET("weather")
+  fun getCurrentWeatherByCityId(
+    @Query("id") id: Int
+  ): Call<CurrentWeather>
+
+  @GET("weather")
+  fun getCurrentWeatherByCoords(
+    @Query("lat") lat: Float,
+    @Query("lon") lon: Float
+  ): Call<CurrentWeather>
+
+  @GET("weather")
+  fun getCurrentWeatherByZipCode(
+    @Query("zip") zip: String
+  ): Call<CurrentWeather>
+
+  @GET("weather")
+  fun getCurrentWeatherListInZone(
+    @Query("bbox") box: String
+  ): Call<CurrentWeatherList>
+
+  @GET("weather")
+  fun getCurrentWeatherListInCycle(
+    @Query("lat") lat: Float,
+    @Query("lon") lon: Float,
+    @Query("cnt") count: Short
+  ): Call<CurrentWeatherList>
+
+  @GET("weather")
+  fun getCurrentWeatherListByCityId(
+    @Query("id") ids: String
+  ): Call<CurrentWeatherList>
+}

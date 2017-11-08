@@ -17,4 +17,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.model.param
+
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+
+data class Coord(
+  @field:SerializedName("lon")
+  val longitude: Float? = null,
+
+  @field:SerializedName("lat")
+  val latitude: Float? = null
+) {
+
+  fun hasLongitude(): Boolean = longitude != null
+
+  fun hasLatitude(): Boolean = latitude != null
+
+  fun toJson(): String {
+    return GsonBuilder().create().toJson(this)
+  }
+
+  fun toJsonPretty(): String {
+    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+  }
+}

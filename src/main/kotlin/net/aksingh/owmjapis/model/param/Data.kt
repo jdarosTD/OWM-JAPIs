@@ -17,4 +17,77 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.model.param
+
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+import java.util.*
+
+data class Data(
+  @field:SerializedName("dt")
+  private val dt: Int? = null,
+
+  @field:SerializedName("main")
+  val mainData: Main? = null,
+
+  @field:SerializedName("temp")
+  val tempData: Temp? = null,
+
+  @field:SerializedName("pressure")
+  val pressure: Float? = null,
+
+  @field:SerializedName("humidity")
+  val humidity: Int? = null,
+
+  @field:SerializedName("weather")
+  val weatherList: List<Weather?>? = null,
+
+  @field:SerializedName("clouds")
+  val cloudData: Cloud? = null,
+
+  @field:SerializedName("wind")
+  val windData: Wind? = null,
+
+  @field:SerializedName("sys")
+  val systemData: System? = null,
+
+  @field:SerializedName("dt_txt")
+  val dateTimeText: String? = null
+) {
+
+  var dateTime: Date? = null
+    get() {
+      if (dt != null) {
+        return Date(dt.toLong() * 1000L)
+      }
+      return null
+    }
+
+  fun hasDateTime(): Boolean = dateTime != null
+
+  fun hasMainData(): Boolean = mainData != null
+
+  fun hasTempData(): Boolean = tempData != null
+
+  fun hasPressure(): Boolean = pressure != null
+
+  fun hasHumidity(): Boolean = humidity != null
+
+  fun hasWeatherList(): Boolean = weatherList != null
+
+  fun hasCloudData(): Boolean = cloudData != null
+
+  fun hasWindData(): Boolean = windData != null
+
+  fun hassystemData(): Boolean = systemData != null
+
+  fun hasDateTimeText(): Boolean = dateTimeText != null
+
+  fun toJson(): String {
+    return GsonBuilder().create().toJson(this)
+  }
+
+  fun toJsonPretty(): String {
+    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+  }
+}

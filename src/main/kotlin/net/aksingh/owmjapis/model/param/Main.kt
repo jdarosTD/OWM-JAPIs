@@ -17,4 +17,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.model.param
+
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+
+data class Main(
+  @field:SerializedName("temp")
+  val temp: Float? = null,
+
+  @field:SerializedName("temp_min")
+  val tempMin: Float? = null,
+
+  @field:SerializedName("temp_max")
+  val tempMax: Float? = null,
+
+  @field:SerializedName("pressure")
+  val pressure: Float? = null,
+
+  @field:SerializedName("sea_level")
+  val seaLevel: Float? = null,
+
+  @field:SerializedName("grnd_level")
+  val groundLevel: Float? = null,
+
+  @field:SerializedName("humidity")
+  val humidity: Int? = null,
+
+  @field:SerializedName("temp_kf")
+  val tempKf: Float? = null
+) {
+
+  fun hasTemp(): Boolean = temp != null
+
+  fun hasTempMax(): Boolean = tempMax != null
+
+  fun hasTempMin(): Boolean = tempMin != null
+
+  fun hasPressure(): Boolean = pressure != null
+
+  fun hasSeaLevel(): Boolean = seaLevel != null
+
+  fun hasGroundLevel(): Boolean = groundLevel != null
+
+  fun hasHumidity(): Boolean = humidity != null
+
+  fun hasTempKf(): Boolean = tempKf != null
+
+  fun toJson(): String {
+    return GsonBuilder().create().toJson(this)
+  }
+
+  fun toJsonPretty(): String {
+    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+  }
+}

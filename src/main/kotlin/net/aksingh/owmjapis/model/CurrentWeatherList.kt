@@ -17,4 +17,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-rootProject.name = 'owm-japis'
+package net.aksingh.owmjapis.model
+
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+
+data class CurrentWeatherList(
+  @field:SerializedName("cod")
+  var respCode: String? = null,
+
+  @field:SerializedName("calctime")
+  var calcTime: Float? = null,
+
+  @field:SerializedName("cnt")
+  var dataCount: Short? = null,
+
+  @field:SerializedName("list")
+  var dataList: List<CurrentWeather>? = null
+) {
+  fun hasRespCode(): Boolean = respCode != null
+
+  fun hasCalcTime(): Boolean = calcTime != null
+
+  fun hasDataCount(): Boolean = dataCount != null
+
+  fun hasDataList(): Boolean = dataList != null
+
+  companion object Static {
+    @JvmStatic
+    fun fromJson(json: String): CurrentWeatherList {
+      return GsonBuilder().create().fromJson(json, CurrentWeatherList::class.java)
+    }
+
+    @JvmStatic
+    fun toJson(pojo: CurrentWeatherList): String {
+      return GsonBuilder().create().toJson(pojo)
+    }
+
+    @JvmStatic
+    fun toJsonPretty(pojo: CurrentWeatherList): String {
+      return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
+    }
+  }
+}
