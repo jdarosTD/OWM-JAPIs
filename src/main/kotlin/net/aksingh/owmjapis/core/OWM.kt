@@ -45,7 +45,7 @@ import java.net.Proxy
  * `OWM owm = new OWM("your-api-key");`
  *
  * **Sample code in Kotlin:**
- * `owm: OWM = OWM("your-api-key")`
+ * `val owm: OWM = OWM("your-api-key")`
  *
  * [OpenWeatherMap.org](https://openweathermap.org/)
  * [OpenWeatherMap.org APIs](https://openweathermap.org/api/)

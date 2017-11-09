@@ -35,7 +35,6 @@ repositories {
 }
 
 dependencies {
-  compile 'org.json:json:20171018'
   compile 'com.google.code.gson:gson:2.8.2'
 
   compile 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -43,8 +42,6 @@ dependencies {
 
   compile "org.jetbrains.kotlin:kotlin-stdlib"
   compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
-  testCompile 'junit:junit:4.12'
 }
 
 task javadocJar(type: Jar) {
