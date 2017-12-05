@@ -34,9 +34,16 @@ No? Not an issue. You can download the releases (source and binaries) from [OWM 
 ###2.5 (Compatible with OpenWeatherMap.org's API v2.5)
 
 
+####2.5.2.1
+
+**Minor version**
+
+1. Added support for retrieving weather condition details
+
+
 ####2.5.2.0
 
-**Major version:**
+**Major version**
 
 1. Added support for retrieving Air Pollution and UV Index
 2. Fixed dependency bugs and improved support for Maven Central
@@ -46,7 +53,7 @@ No? Not an issue. You can download the releases (source and binaries) from [OWM 
 
 ####2.5.1.0
 
-**Major version:**
+**Major version**
 
 1. Re-wrote whole lib. in Kotlin
 2. Supports retrieving Current Weather, Hourly Forecast, and Daily Forecast

@@ -2,9 +2,16 @@
 ###2.5 (Compatible with OpenWeatherMap.org's API v2.5)
 
 
+####2.5.2.1
+
+**Minor version**
+
+1. Added support for retrieving weather condition details
+
+
 ####2.5.2.0
 
-**Major version:**
+**Major version**
 
 1. Added support for retrieving Air Pollution and UV Index
 2. Fixed dependency bugs and improved support for Maven Central
@@ -14,7 +21,7 @@
 
 ####2.5.1.0
 
-**Major version:**
+**Major version**
 
 1. Re-wrote whole lib. in Kotlin
 2. Supports retrieving Current Weather, Hourly Forecast, and Daily Forecast
@@ -23,7 +30,7 @@
 
 ####2.5.0.5
 
-**Bug-fix version:**
+**Bug-fix version**
 
 1. Fixed 1h and 3h parameter in Rain and Snow.
 2. Added Snow in CurrentWeather.
@@ -32,7 +39,7 @@
 
 ####2.5.0.4
 
-**Bug-fix version:**
+**Bug-fix version**
 
 1. Fixed lang parameter bug.
 2. Library supports serialization and parcelization.
@@ -41,13 +48,13 @@
 
 ####2.5.0.3
 
-**Implemented:**
+**Implemented**
 
 1. Current Weather
 2. Daily Forecasts
 3. Hourly Forecasts
 
-**New Features:**
+**New Features**
 
 1. Faster than ever before
 2. Raw Response for Caching purposes
@@ -58,7 +65,7 @@
 7. Better maintain-able source code (for developers)
 8. Ported the project to Gradle (for developers)
 
-**Changed:**
+**Changed**
 
 1. Package's name from net.aksingh.java.api.owm to net.aksingh.owmjapis
 2. Class's name from CurrentWeatherData to CurrentWeather
@@ -71,7 +78,7 @@
 
 ####2.5.0.2
 
-**Bug-fix version:**
+**Bug-fix version**
 
 1. Fixed bugs which caused wrong parsing of date and time.
 2. Improved code formatting and readability (for developers).
@@ -79,14 +86,14 @@
 
 ####2.5.0.1
 
-**Implemented:**
+**Implemented**
 
 1. Current Weather
 2. Weather Forecasts
 3. Daily Forecasts
 4. Wind degree to direction converter
 
-**Not implemented but planned:**
+**Not implemented but planned**
 
 1. Searching of City
 2. Weather Maps
