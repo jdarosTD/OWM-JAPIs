@@ -39,8 +39,8 @@ interface CurrentWeatherAPI {
 
   @GET("weather")
   fun getCurrentWeatherByCoords(
-    @Query("lat") lat: Float,
-    @Query("lon") lon: Float
+    @Query("lat") lat: Double,
+    @Query("lon") lon: Double
   ): Call<CurrentWeather>
 
   @GET("weather")
@@ -55,8 +55,8 @@ interface CurrentWeatherAPI {
 
   @GET("weather")
   fun getCurrentWeatherListInCycle(
-    @Query("lat") lat: Float,
-    @Query("lon") lon: Float,
+    @Query("lat") lat: Double,
+    @Query("lon") lon: Double,
     @Query("cnt") count: Short
   ): Call<CurrentWeatherList>
 

@@ -17,45 +17,78 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-apply plugin: 'java'
-apply plugin: 'kotlin'
-apply plugin: 'org.jetbrains.dokka'
+apply plugin: "java"
+apply plugin: "kotlin"
+apply plugin: "org.jetbrains.dokka"
 
-apply plugin: 'maven'
-apply plugin: 'signing'
+apply plugin: "maven"
+apply plugin: "signing"
 
 sourceCompatibility = 1.7
 
-group = 'net.aksingh'
+group = "net.aksingh"
 archivesBaseName = "owm-japis"
-version = '2.5.1.0'
+version = "2.5.2.0"
 
 repositories {
   mavenCentral()
 }
 
 dependencies {
-  compile 'com.google.code.gson:gson:2.8.2'
+//  compile "org.threeten:threetenbp:1.3.6"
 
-  compile 'com.squareup.retrofit2:retrofit:2.3.0'
-  compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+  compile "com.google.code.gson:gson:2.8.2"
 
-  compile "org.jetbrains.kotlin:kotlin-stdlib"
+  compile "com.squareup.retrofit2:retrofit:2.3.0"
+  compile "com.squareup.retrofit2:converter-gson:2.3.0"
+
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
 task javadocJar(type: Jar) {
-  classifier = 'javadoc'
+  classifier = "javadoc"
   from javadoc
 }
 
 task sourcesJar(type: Jar) {
-  classifier = 'sources'
+  classifier = "sources"
   from sourceSets.main.allSource
 }
 
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+  outputFormat = "javadoc"
+  outputDirectory = "$rootDir/docs"
+
+  jdkVersion = 7
+  impliedPlatforms = ["JVM"]
+}
+
+task deleteUnusedJavadocAssets(type: Delete, dependsOn: "dokkaJavadoc") {
+  doLast {
+    try {
+      file("$rootDir/docs").traverse(type: groovy.io.FileType.DIRECTORIES) {
+        if (it.absolutePath.contains("net/aksingh/owmjapis/demo") ||
+          it.absolutePath.contains("net\\aksingh\\owmjapis\\demo")) {
+          delete it
+          println "DELETED: " + it
+        } else {
+          println "SKIPPED: " + it
+        }
+      }
+    } catch (FileNotFoundException e) {
+      /* Do nothing */
+    }
+  }
+}
+
+task dokkaJavadocJar(type: Jar, dependsOn: "deleteUnusedJavadocAssets") {
+  classifier = "javadoc"
+  from "$rootDir/docs"
+}
+
 artifacts {
-  archives javadocJar, sourcesJar
+  archives dokkaJavadocJar, sourcesJar
 }
 
 signing {
@@ -76,29 +109,29 @@ uploadArchives {
       }
 
       pom.project {
-        name 'OWM JAPIs'
-        packaging 'jar'
-        description 'Java Wrapper Library for OpenWeatherMap.org Web APIs'
-        url 'http://go.aksingh.net/owm-japis'
+        name "OWM JAPIs"
+        packaging "jar"
+        description "Java Library for OpenWeatherMap.org Weather APIs"
+        url "http://go.aksingh.net/owm-japis"
 
         scm {
-          connection 'scm:svn:http://foo.googlecode.com/svn/trunk/'
-          developerConnection 'scm:svn:https://foo.googlecode.com/svn/trunk/'
-          url 'http://foo.googlecode.com/svn/trunk/'
+          connection "scm:svn:http://foo.googlecode.com/svn/trunk/"
+          developerConnection "scm:svn:https://foo.googlecode.com/svn/trunk/"
+          url "http://foo.googlecode.com/svn/trunk/"
         }
 
         licenses {
           license {
-            name 'The MIT License (MIT)'
-            url 'http://opensource.org/licenses/MIT'
+            name "The MIT License (MIT)"
+            url "http://opensource.org/licenses/MIT"
           }
         }
 
         developers {
           developer {
-            id 'aksinghnet'
-            name 'Ashutosh Kumar Singh'
-            email 'ashutosh@aksingh.net'
+            id "aksinghnet"
+            name "Ashutosh Kumar Singh"
+            email "ashutosh@aksingh.net"
           }
         }
       }
@@ -106,17 +139,9 @@ uploadArchives {
   }
 }
 
-dokka {
-  outputFormat = 'javadoc'
-  outputDirectory = "$buildDir/javadoc"
-
-  jdkVersion = 7
-  impliedPlatforms = ["JVM"]
-}
-
 buildscript {
-  ext.kotlin_version = '1.1.51'
-  ext.dokka_version = '0.9.15'
+  ext.kotlin_version = "1.1.51"
+  ext.dokka_version = "0.9.15"
 
   repositories {
     jcenter()

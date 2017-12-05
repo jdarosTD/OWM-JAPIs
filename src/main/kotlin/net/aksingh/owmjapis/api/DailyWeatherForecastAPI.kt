@@ -17,77 +17,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-package net.aksingh.owmjapis.model.param
+package net.aksingh.owmjapis.api
 
-import com.google.gson.GsonBuilder
-import com.google.gson.annotations.SerializedName
-import java.util.*
+import net.aksingh.owmjapis.model.DailyWeatherForecast
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-data class Data(
-  @field:SerializedName("dt")
-  private val dt: Int? = null,
+interface DailyWeatherForecastAPI {
 
-  @field:SerializedName("main")
-  val mainData: Main? = null,
+  @GET("forecast/daily")
+  fun getDailyWeatherForecastByCityName(
+    @Query("q") name: String,
+    @Query("cnt") count: Int
+  ): Call<DailyWeatherForecast>
 
-  @field:SerializedName("temp")
-  val tempData: Temp? = null,
+  @GET("forecast/daily")
+  fun getDailyWeatherForecastByCityId(
+    @Query("id") id: Int,
+    @Query("cnt") count: Int
+  ): Call<DailyWeatherForecast>
 
-  @field:SerializedName("pressure")
-  val pressure: Float? = null,
+  @GET("forecast/daily")
+  fun getDailyWeatherForecastByCoords(
+    @Query("lat") lat: Double,
+    @Query("lon") lon: Double,
+    @Query("cnt") count: Int
+  ): Call<DailyWeatherForecast>
 
-  @field:SerializedName("humidity")
-  val humidity: Int? = null,
-
-  @field:SerializedName("weather")
-  val weatherList: List<Weather?>? = null,
-
-  @field:SerializedName("clouds")
-  val cloudData: Cloud? = null,
-
-  @field:SerializedName("wind")
-  val windData: Wind? = null,
-
-  @field:SerializedName("sys")
-  val systemData: System? = null,
-
-  @field:SerializedName("dt_txt")
-  val dateTimeText: String? = null
-) {
-
-  var dateTime: Date? = null
-    get() {
-      if (dt != null) {
-        return Date(dt.toLong() * 1000L)
-      }
-      return null
-    }
-
-  fun hasDateTime(): Boolean = dateTime != null
-
-  fun hasMainData(): Boolean = mainData != null
-
-  fun hasTempData(): Boolean = tempData != null
-
-  fun hasPressure(): Boolean = pressure != null
-
-  fun hasHumidity(): Boolean = humidity != null
-
-  fun hasWeatherList(): Boolean = weatherList != null
-
-  fun hasCloudData(): Boolean = cloudData != null
-
-  fun hasWindData(): Boolean = windData != null
-
-  fun hassystemData(): Boolean = systemData != null
-
-  fun hasDateTimeText(): Boolean = dateTimeText != null
-
-  fun toJson(): String {
-    return GsonBuilder().create().toJson(this)
-  }
-
-  fun toJsonPretty(): String {
-    return GsonBuilder().setPrettyPrinting().create().toJson(this)
-  }
+  @GET("forecast/daily")
+  fun getDailyWeatherForecastByZipCode(
+    @Query("zip") zip: String,
+    @Query("cnt") count: Int
+  ): Call<DailyWeatherForecast>
 }

@@ -40,7 +40,7 @@ class ConversionTools {
      */
     @JvmStatic
     @Throws(IllegalArgumentException::class)
-    fun convertDegree2DirectionCode(degree: Float): String {
+    fun convertDegree2DirectionCode(degree: Double): String {
       val directionCode: String
 
       // degree should be between 0 and 360
@@ -80,7 +80,7 @@ class ConversionTools {
      */
     @JvmStatic
     @Throws(IllegalArgumentException::class)
-    fun convertDegree2DirectionName(degree: Float): String {
+    fun convertDegree2DirectionName(degree: Double): String {
       val directionName: String
       val directionCode = convertDegree2DirectionCode(degree)
 

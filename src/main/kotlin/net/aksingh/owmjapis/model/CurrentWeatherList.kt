@@ -27,7 +27,7 @@ data class CurrentWeatherList(
   var respCode: String? = null,
 
   @field:SerializedName("calctime")
-  var calcTime: Float? = null,
+  var calcTime: Double? = null,
 
   @field:SerializedName("cnt")
   var dataCount: Short? = null,

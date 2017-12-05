@@ -22,14 +22,14 @@ package net.aksingh.owmjapis.model
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import net.aksingh.owmjapis.model.param.City
-import net.aksingh.owmjapis.model.param.Data
+import net.aksingh.owmjapis.model.param.WeatherData
 
-data class DailyForecast(
+data class DailyWeatherForecast(
   @field:SerializedName("cod")
   var respCode: String? = null,
 
   @field:SerializedName("message")
-  var message: Float? = null,
+  var message: Double? = null,
 
   @field:SerializedName("city")
   var cityData: City? = null,
@@ -38,7 +38,7 @@ data class DailyForecast(
   var dataCount: Int? = null,
 
   @field:SerializedName("list")
-  var dataList: List<Data?>? = null
+  var dataList: List<WeatherData?>? = null
 ) {
 
   fun hasRespCode(): Boolean = respCode != null
@@ -53,17 +53,17 @@ data class DailyForecast(
 
   companion object Static {
     @JvmStatic
-    fun fromJson(json: String): DailyForecast {
-      return GsonBuilder().create().fromJson(json, DailyForecast::class.java)
+    fun fromJson(json: String): DailyWeatherForecast {
+      return GsonBuilder().create().fromJson(json, DailyWeatherForecast::class.java)
     }
 
     @JvmStatic
-    fun toJson(pojo: DailyForecast): String {
+    fun toJson(pojo: DailyWeatherForecast): String {
       return GsonBuilder().create().toJson(pojo)
     }
 
     @JvmStatic
-    fun toJsonPretty(pojo: DailyForecast): String {
+    fun toJsonPretty(pojo: DailyWeatherForecast): String {
       return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
     }
   }

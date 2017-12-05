@@ -34,6 +34,16 @@ No? Not an issue. You can download the releases (source and binaries) from [OWM 
 ###2.5 (Compatible with OpenWeatherMap.org's API v2.5)
 
 
+####2.5.2.0
+
+**Major version:**
+
+1. Added support for retrieving Air Pollution and UV Index
+2. Fixed dependency bugs and improved support for Maven Central
+3. Supports retrieving Current Weather, Hourly Forecast, and Daily Forecast as well
+4. Requires min. Java 1.7 platform and supports Java, Kotlin, and Android (as of v2.5.1.0)
+
+
 ####2.5.1.0
 
 **Major version:**
@@ -144,14 +154,14 @@ Using OWM JAPIs, you can always check if a particular data is available or not. 
 
 
 ##Source code
-Download the library's source code from [OWM JAPIs Source](https://code.aksingh.net/owm-japis/src).
+Download the library's source code from [OWM JAPIs Source](http://go.aksingh.net/owm-japis-src).
 
 
 
 ##Bugs / Requests
 Got a problem, error or bug in the library? Or want a new feature that's not already available in OWM JAPIs?
 
-Kindly post bugs or feature requests at [OWM JAPIs Issues](https://code.aksingh.net/owm-japis/issues) and I will try to solve/add it in the next release.
+Kindly post bugs or feature requests at [OWM JAPIs Issues](http://go.aksingh.net/owm-japis-bugs) and I will try to solve/add it in the next release.
 
 
 

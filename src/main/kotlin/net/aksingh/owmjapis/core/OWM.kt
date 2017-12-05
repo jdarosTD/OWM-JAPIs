@@ -20,13 +20,8 @@
 package net.aksingh.owmjapis.core
 
 import com.google.gson.GsonBuilder
-import net.aksingh.owmjapis.api.APIException
-import net.aksingh.owmjapis.api.CurrentWeatherAPI
-import net.aksingh.owmjapis.api.DailyForecastAPI
-import net.aksingh.owmjapis.api.HourlyForecastAPI
-import net.aksingh.owmjapis.model.CurrentWeather
-import net.aksingh.owmjapis.model.DailyForecast
-import net.aksingh.owmjapis.model.HourlyForecast
+import net.aksingh.owmjapis.api.*
+import net.aksingh.owmjapis.model.*
 import net.aksingh.owmjapis.util.OkHttpTools
 import net.aksingh.owmjapis.util.SystemTools
 import okhttp3.OkHttpClient
@@ -34,6 +29,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.InetSocketAddress
 import java.net.Proxy
+import java.util.*
 
 
 /**
@@ -57,8 +53,11 @@ import java.net.Proxy
  */
 class OWM {
 
-  private val OWM_25_BASE_URL: String = "https://api.openweathermap.org/data/2.5/"
-  private val OWM_25_DAILY_FORECAST_MAX_COUNT: Byte = 16
+  private val OWM_DATA_V25_BASE_URL: String = "https://api.openweathermap.org/data/2.5/"
+  private val OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT: Int = 16
+  private val OWM_DATA_V25_HISTORICAL_UV_INDEX_MAX_COUNT: Int = 5
+
+  private val OWM_POLLUTION_V10_BASE_URL: String = "https://api.openweathermap.org/pollution/v1/"
 
   private var apiKey: String
     set(value) {
@@ -74,7 +73,9 @@ class OWM {
   private var lang: OWM.Language
   private var proxy: Proxy
 
-  private var retrofit: Retrofit
+  private var retrofit4weather: Retrofit
+  private var retrofit4pollution: Retrofit
+  private var retrofit4other: Retrofit
 
   /**
    * Constructor
@@ -96,7 +97,9 @@ class OWM {
     this.lang = OWM.Language.ENGLISH
     this.proxy = SystemTools.getSystemProxy()
 
-    this.retrofit = createRetrofitInstance(this.proxy)
+    this.retrofit4weather = createRetrofit4WeatherInstance(this.proxy)
+    this.retrofit4pollution = createRetrofit4PollutionInstance(this.proxy)
+    this.retrofit4other = createRetrofit4OtherInstance(this.proxy)
   }
 
   /**
@@ -106,7 +109,7 @@ class OWM {
    */
   fun setAccuracy(accuracy: OWM.Accuracy): OWM {
     this.accuracy = accuracy
-    this.retrofit = createRetrofitInstance(this.proxy)
+    this.retrofit4weather = createRetrofit4WeatherInstance(this.proxy)
 
     return this
   }
@@ -118,7 +121,7 @@ class OWM {
    */
   fun setUnit(unit: OWM.Unit): OWM {
     this.unit = unit
-    this.retrofit = createRetrofitInstance(this.proxy)
+    this.retrofit4weather = createRetrofit4WeatherInstance(this.proxy)
 
     return this
   }
@@ -130,7 +133,7 @@ class OWM {
    */
   fun setLanguage(lang: OWM.Language): OWM {
     this.lang = lang
-    this.retrofit = createRetrofitInstance(this.proxy)
+    this.retrofit4weather = createRetrofit4WeatherInstance(this.proxy)
 
     return this
   }
@@ -141,7 +144,9 @@ class OWM {
    * @param proxy Proxy
    */
   fun setProxy(proxy: Proxy): OWM {
-    this.retrofit = createRetrofitInstance(proxy)
+    this.retrofit4weather = createRetrofit4WeatherInstance(proxy)
+    this.retrofit4pollution = createRetrofit4PollutionInstance(this.proxy)
+    this.retrofit4other = createRetrofit4OtherInstance(this.proxy)
 
     return this
   }
@@ -235,7 +240,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun currentWeatherByCityName(cityName: String): CurrentWeather {
-    val api = retrofit.create(CurrentWeatherAPI::class.java)
+    var api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
     val apiCall = api.getCurrentWeatherByCityName(cityName)
     val apiResp = apiCall.execute()
@@ -261,7 +266,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun currentWeatherByCityId(cityId: Int): CurrentWeather {
-    val api = retrofit.create(CurrentWeatherAPI::class.java)
+    var api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
     val apiCall = api.getCurrentWeatherByCityId(cityId)
     val apiResp = apiCall.execute()
@@ -279,8 +284,8 @@ class OWM {
   }
 
   @Throws(APIException::class)
-  fun currentWeatherByCoords(latitude: Float, longitude: Float): CurrentWeather {
-    val api = retrofit.create(CurrentWeatherAPI::class.java)
+  fun currentWeatherByCoords(latitude: Double, longitude: Double): CurrentWeather {
+    var api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
     val apiCall = api.getCurrentWeatherByCoords(latitude, longitude)
     val apiResp = apiCall.execute()
@@ -304,7 +309,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun currentWeatherByZipCode(zipCode: Int, countryCode: OWM.Country): CurrentWeather {
-    val api = retrofit.create(CurrentWeatherAPI::class.java)
+    var api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
     val apiCall = api.getCurrentWeatherByZipCode(zipCode.toString() + "," + countryCode)
     val apiResp = apiCall.execute()
@@ -322,10 +327,10 @@ class OWM {
   }
 
   @Throws(APIException::class)
-  fun hourlyForecastByCityName(cityName: String): HourlyForecast {
-    val api = retrofit.create(HourlyForecastAPI::class.java)
+  fun hourlyWeatherForecastByCityName(cityName: String): HourlyWeatherForecast {
+    var api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getHourlyForecastByCityName(cityName)
+    val apiCall = api.getHourlyWeatherForecastByCityName(cityName)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -334,22 +339,22 @@ class OWM {
         throw APIException(apiResp.code(), apiResp.message())
       }
 
-      forecast = HourlyForecast()
+      forecast = HourlyWeatherForecast()
     }
 
     return forecast
   }
 
   @Throws(APIException::class)
-  fun hourlyForecastByCityName(cityName: String, countryCode: OWM.Country): HourlyForecast {
-    return hourlyForecastByCityName(cityName + "," + countryCode)
+  fun hourlyWeatherForecastByCityName(cityName: String, countryCode: OWM.Country): HourlyWeatherForecast {
+    return hourlyWeatherForecastByCityName(cityName + "," + countryCode)
   }
 
   @Throws(APIException::class)
-  fun hourlyForecastByCityId(cityId: Int): HourlyForecast {
-    val api = retrofit.create(HourlyForecastAPI::class.java)
+  fun hourlyWeatherForecastByCityId(cityId: Int): HourlyWeatherForecast {
+    var api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getHourlyForecastByCityId(cityId)
+    val apiCall = api.getHourlyWeatherForecastByCityId(cityId)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -358,17 +363,17 @@ class OWM {
         throw APIException(apiResp.code(), apiResp.message())
       }
 
-      forecast = HourlyForecast()
+      forecast = HourlyWeatherForecast()
     }
 
     return forecast
   }
 
   @Throws(APIException::class)
-  fun hourlyForecastByCoords(latitude: Float, longitude: Float): HourlyForecast {
-    val api = retrofit.create(HourlyForecastAPI::class.java)
+  fun hourlyWeatherForecastByCoords(latitude: Double, longitude: Double): HourlyWeatherForecast {
+    var api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getHourlyForecastByCoords(latitude, longitude)
+    val apiCall = api.getHourlyWeatherForecastByCoords(latitude, longitude)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -377,22 +382,22 @@ class OWM {
         throw APIException(apiResp.code(), apiResp.message())
       }
 
-      forecast = HourlyForecast()
+      forecast = HourlyWeatherForecast()
     }
 
     return forecast
   }
 
   @Throws(APIException::class)
-  fun hourlyForecastByZipCode(zipCode: Int): HourlyForecast {
-    return hourlyForecastByZipCode(zipCode, OWM.Country.UNITED_STATES)
+  fun hourlyWeatherForecastByZipCode(zipCode: Int): HourlyWeatherForecast {
+    return hourlyWeatherForecastByZipCode(zipCode, OWM.Country.UNITED_STATES)
   }
 
   @Throws(APIException::class)
-  fun hourlyForecastByZipCode(zipCode: Int, countryCode: OWM.Country): HourlyForecast {
-    val api = retrofit.create(HourlyForecastAPI::class.java)
+  fun hourlyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country): HourlyWeatherForecast {
+    var api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getHourlyForecastByZipCode(zipCode.toString() + "," + countryCode)
+    val apiCall = api.getHourlyWeatherForecastByZipCode(zipCode.toString() + "," + countryCode)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -401,22 +406,22 @@ class OWM {
         throw APIException(apiResp.code(), apiResp.message())
       }
 
-      forecast = HourlyForecast()
+      forecast = HourlyWeatherForecast()
     }
 
     return forecast
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByCityName(cityName: String): DailyForecast {
-    return dailyForecastByCityName(cityName, OWM_25_DAILY_FORECAST_MAX_COUNT)
+  fun dailyWeatherForecastByCityName(cityName: String): DailyWeatherForecast {
+    return dailyWeatherForecastByCityName(cityName, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByCityName(cityName: String, count: Byte): DailyForecast {
-    val api = retrofit.create(DailyForecastAPI::class.java)
+  fun dailyWeatherForecastByCityName(cityName: String, count: Int): DailyWeatherForecast {
+    var api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getDailyForecastByCityName(cityName, count)
+    val apiCall = api.getDailyWeatherForecastByCityName(cityName, count)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -425,32 +430,32 @@ class OWM {
         throw APIException(apiResp.code(), apiResp.message())
       }
 
-      forecast = DailyForecast()
+      forecast = DailyWeatherForecast()
     }
 
     return forecast
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByCityName(cityName: String, countryCode: OWM.Country): DailyForecast {
-    return dailyForecastByCityName(cityName, countryCode, OWM_25_DAILY_FORECAST_MAX_COUNT)
+  fun dailyWeatherForecastByCityName(cityName: String, countryCode: OWM.Country): DailyWeatherForecast {
+    return dailyWeatherForecastByCityName(cityName, countryCode, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByCityName(cityName: String, countryCode: OWM.Country, count: Byte): DailyForecast {
-    return dailyForecastByCityName(cityName + "," + countryCode, count)
+  fun dailyWeatherForecastByCityName(cityName: String, countryCode: OWM.Country, count: Int): DailyWeatherForecast {
+    return dailyWeatherForecastByCityName(cityName + "," + countryCode, count)
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByCityId(cityId: Int): DailyForecast {
-    return dailyForecastByCityId(cityId, OWM_25_DAILY_FORECAST_MAX_COUNT)
+  fun dailyWeatherForecastByCityId(cityId: Int): DailyWeatherForecast {
+    return dailyWeatherForecastByCityId(cityId, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByCityId(cityId: Int, count: Byte): DailyForecast {
-    val api = retrofit.create(DailyForecastAPI::class.java)
+  fun dailyWeatherForecastByCityId(cityId: Int, count: Int): DailyWeatherForecast {
+    var api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getDailyForecastByCityId(cityId, count)
+    val apiCall = api.getDailyWeatherForecastByCityId(cityId, count)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -459,22 +464,22 @@ class OWM {
         throw APIException(apiResp.code(), apiResp.message())
       }
 
-      forecast = DailyForecast()
+      forecast = DailyWeatherForecast()
     }
 
     return forecast
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByCoords(latitude: Float, longitude: Float): DailyForecast {
-    return dailyForecastByCoords(latitude, longitude, OWM_25_DAILY_FORECAST_MAX_COUNT)
+  fun dailyWeatherForecastByCoords(latitude: Double, longitude: Double): DailyWeatherForecast {
+    return dailyWeatherForecastByCoords(latitude, longitude, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByCoords(latitude: Float, longitude: Float, count: Byte): DailyForecast {
-    val api = retrofit.create(DailyForecastAPI::class.java)
+  fun dailyWeatherForecastByCoords(latitude: Double, longitude: Double, count: Int): DailyWeatherForecast {
+    var api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getDailyForecastByCoords(latitude, longitude, count)
+    val apiCall = api.getDailyWeatherForecastByCoords(latitude, longitude, count)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -483,32 +488,32 @@ class OWM {
         throw APIException(apiResp.code(), apiResp.message())
       }
 
-      forecast = DailyForecast()
+      forecast = DailyWeatherForecast()
     }
 
     return forecast
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByZipCode(zipCode: Int): DailyForecast {
-    return dailyForecastByZipCode(zipCode, OWM.Country.UNITED_STATES, OWM_25_DAILY_FORECAST_MAX_COUNT)
+  fun dailyWeatherForecastByZipCode(zipCode: Int): DailyWeatherForecast {
+    return dailyWeatherForecastByZipCode(zipCode, OWM.Country.UNITED_STATES, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByZipCode(zipCode: Int, count: Byte): DailyForecast {
-    return dailyForecastByZipCode(zipCode, OWM.Country.UNITED_STATES, count)
+  fun dailyWeatherForecastByZipCode(zipCode: Int, count: Int): DailyWeatherForecast {
+    return dailyWeatherForecastByZipCode(zipCode, OWM.Country.UNITED_STATES, count)
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByZipCode(zipCode: Int, countryCode: OWM.Country): DailyForecast {
-    return dailyForecastByZipCode(zipCode, countryCode, OWM_25_DAILY_FORECAST_MAX_COUNT)
+  fun dailyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country): DailyWeatherForecast {
+    return dailyWeatherForecastByZipCode(zipCode, countryCode, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
-  fun dailyForecastByZipCode(zipCode: Int, countryCode: OWM.Country, count: Byte): DailyForecast {
-    val api = retrofit.create(DailyForecastAPI::class.java)
+  fun dailyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country, count: Int): DailyWeatherForecast {
+    var api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getDailyForecastByZipCode(zipCode.toString() + "," + countryCode, count)
+    val apiCall = api.getDailyWeatherForecastByZipCode(zipCode.toString() + "," + countryCode, count)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -517,18 +522,119 @@ class OWM {
         throw APIException(apiResp.code(), apiResp.message())
       }
 
-      forecast = DailyForecast()
+      forecast = DailyWeatherForecast()
     }
 
     return forecast
+  }
+
+  @Throws(APIException::class)
+  fun currentUVIndexByCoords(latitude: Double, longitude: Double): CurrentUVIndex {
+    var api = retrofit4other.create(CurrentUVIndexAPI::class.java)
+
+    val apiCall = api.getCurrentUVIndexByCoords(latitude, longitude)
+    val apiResp = apiCall.execute()
+    var uvIndex = apiResp.body()
+
+    if (uvIndex == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      uvIndex = CurrentUVIndex()
+    }
+
+    return uvIndex
+  }
+
+  @Throws(APIException::class)
+  fun dailyUVIndexForecastByCoords(latitude: Double, longitude: Double): List<DailyUVIndexForecast> {
+    var api = retrofit4other.create(DailyUVIndexForecastAPI::class.java)
+
+    val apiCall = api.getDailyUVIndexForecastByCoords(latitude, longitude)
+    val apiResp = apiCall.execute()
+    var uvIndexList = apiResp.body()
+
+    if (uvIndexList == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      uvIndexList = listOf(DailyUVIndexForecast())
+    }
+
+    return uvIndexList
+  }
+
+  @Throws(APIException::class)
+  fun historicalUVIndexByCoords(latitude: Double, longitude: Double, count: Int, startTime: Long, endTime: Long): List<HistoricalUVIndex> {
+    var api = retrofit4other.create(HistoricalUVIndexAPI::class.java)
+
+    val apiCall = api.getHistoricalUVIndexByCoords(latitude, longitude, count, startTime, endTime)
+    val apiResp = apiCall.execute()
+    var uvIndexList = apiResp.body()
+
+    if (uvIndexList == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      uvIndexList = listOf(HistoricalUVIndex())
+    }
+
+    return uvIndexList
+  }
+
+  @Throws(APIException::class)
+  fun historicalUVIndexByCoords(latitude: Double, longitude: Double, count: Int, startTime: Date, endTime: Date): List<HistoricalUVIndex> {
+    return historicalUVIndexByCoords(latitude, longitude, count, startTime.time / 1000, endTime.time / 1000)
+  }
+
+  @Throws(APIException::class)
+  fun historicalUVIndexByCoords(latitude: Double, longitude: Double, startTime: Long, endTime: Long): List<HistoricalUVIndex> {
+    return historicalUVIndexByCoords(latitude, longitude, OWM_DATA_V25_HISTORICAL_UV_INDEX_MAX_COUNT, startTime, endTime)
+  }
+
+  @Throws(APIException::class)
+  fun historicalUVIndexByCoords(latitude: Double, longitude: Double, startTime: Date, endTime: Date): List<HistoricalUVIndex> {
+    return historicalUVIndexByCoords(latitude, longitude, OWM_DATA_V25_HISTORICAL_UV_INDEX_MAX_COUNT, startTime.time / 1000, endTime.time / 1000)
+  }
+
+  @Throws(APIException::class)
+  fun airPollutionByCoords(latitude: Double, longitude: Double, dateTime: String): AirPollution {
+    var api = retrofit4pollution.create(AirPollutionAPI::class.java)
+
+    val apiCall = api.getAirPollutionByCoords(latitude, longitude, dateTime)
+    val apiResp = apiCall.execute()
+    var pollution = apiResp.body()
+
+    if (pollution == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      pollution = AirPollution()
+    }
+
+    return pollution
+  }
+
+  @Throws(APIException::class)
+  fun airPollutionByCoords(latitude: Double, longitude: Double, dateTime: Date): AirPollution {
+    return airPollutionByCoords(latitude, longitude, dateTime.toInstant().toString())
+  }
+
+  @Throws(APIException::class)
+  fun currentAirPollutionByCoords(latitude: Double, longitude: Double): AirPollution {
+    return airPollutionByCoords(latitude, longitude, "current")
   }
 
   /**
-   * Init Retrofit for getting data from OpenWeatherMap.org
+   * Init Retrofit for getting weather data from OpenWeatherMap.org
    *
    * @param proxy Proxy
    */
-  private fun createRetrofitInstance(proxy: Proxy): Retrofit {
+  private fun createRetrofit4WeatherInstance(proxy: Proxy): Retrofit {
     val clientBuilder = OkHttpClient.Builder().proxy(proxy)
 
     OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
@@ -544,7 +650,49 @@ class OWM {
 
     val builder = Retrofit.Builder()
       .client(client)
-      .baseUrl(OWM_25_BASE_URL)
+      .baseUrl(OWM_DATA_V25_BASE_URL)
+      .addConverterFactory(GsonConverterFactory.create(gson))
+
+    return builder.build()
+  }
+
+  /**
+   * Init Retrofit for getting pollution data from OpenWeatherMap.org
+   *
+   * @param proxy Proxy
+   */
+  private fun createRetrofit4PollutionInstance(proxy: Proxy): Retrofit {
+    val clientBuilder = OkHttpClient.Builder().proxy(proxy)
+
+    OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
+
+    val client = clientBuilder.build()
+    val gson = GsonBuilder().setLenient().create()
+
+    val builder = Retrofit.Builder()
+      .client(client)
+      .baseUrl(OWM_POLLUTION_V10_BASE_URL)
+      .addConverterFactory(GsonConverterFactory.create(gson))
+
+    return builder.build()
+  }
+
+  /**
+   * Init Retrofit for getting other data from OpenWeatherMap.org
+   *
+   * @param proxy Proxy
+   */
+  private fun createRetrofit4OtherInstance(proxy: Proxy): Retrofit {
+    val clientBuilder = OkHttpClient.Builder().proxy(proxy)
+
+    OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
+
+    val client = clientBuilder.build()
+    val gson = GsonBuilder().setLenient().create()
+
+    val builder = Retrofit.Builder()
+      .client(client)
+      .baseUrl(OWM_DATA_V25_BASE_URL)
       .addConverterFactory(GsonConverterFactory.create(gson))
 
     return builder.build()

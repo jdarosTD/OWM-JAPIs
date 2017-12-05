@@ -68,7 +68,7 @@ data class CurrentWeather(
   var dateTime: Date? = null
     get() {
       if (dt != null) {
-        return Date(dt!!.toLong() * 1000L)
+        return Date(dt.toLong() * 1000L)
       }
       return null
     }

@@ -24,22 +24,22 @@ import com.google.gson.annotations.SerializedName
 
 data class Temp(
   @field:SerializedName("day")
-  val tempDay: Float? = null,
+  val tempDay: Double? = null,
 
   @field:SerializedName("min")
-  val tempMin: Float? = null,
+  val tempMin: Double? = null,
 
   @field:SerializedName("max")
-  val tempMax: Float? = null,
+  val tempMax: Double? = null,
 
   @field:SerializedName("night")
-  val tempNight: Float? = null,
+  val tempNight: Double? = null,
 
   @field:SerializedName("eve")
-  val tempEvening: Float? = null,
+  val tempEvening: Double? = null,
 
   @field:SerializedName("morn")
-  val tempMorning: Float? = null
+  val tempMorning: Double? = null
 ) {
 
   fun hasTempDay(): Boolean = tempDay != null

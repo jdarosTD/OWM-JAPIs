@@ -17,37 +17,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-package net.aksingh.owmjapis.api
+package net.aksingh.owmjapis.model
 
-import net.aksingh.owmjapis.model.DailyForecast
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
+import java.util.*
 
-interface DailyForecastAPI {
+data class DailyUVIndexForecast(
+  @field:SerializedName("lat")
+  val latitude: Double? = null,
 
-  @GET("forecast/daily")
-  fun getDailyForecastByCityName(
-    @Query("q") name: String,
-    @Query("cnt") count: Byte
-  ): Call<DailyForecast>
+  @field:SerializedName("lon")
+  val longitude: Double? = null,
 
-  @GET("forecast/daily")
-  fun getDailyForecastByCityId(
-    @Query("id") id: Int,
-    @Query("cnt") count: Byte
-  ): Call<DailyForecast>
+  @field:SerializedName("date_iso")
+  val dateISO: Date? = null,
 
-  @GET("forecast/daily")
-  fun getDailyForecastByCoords(
-    @Query("lat") lat: Float,
-    @Query("lon") lon: Float,
-    @Query("cnt") count: Byte
-  ): Call<DailyForecast>
+  @field:SerializedName("date")
+  private val date: Int? = null,
 
-  @GET("forecast/daily")
-  fun getDailyForecastByZipCode(
-    @Query("zip") zip: String,
-    @Query("cnt") count: Byte
-  ): Call<DailyForecast>
+  @field:SerializedName("value")
+  val value: Double? = null
+) {
+  var dateTime: Date? = null
+    get() {
+      if (date != null) {
+        return Date(date.toLong() * 1000L)
+      }
+      return null
+    }
+
+  fun hasLongitude(): Boolean = longitude != null
+
+  fun hasLatitude(): Boolean = latitude != null
+
+  fun hasDateISO(): Boolean = dateISO != null
+
+  fun hasDateTime(): Boolean = dateTime != null
+
+  fun hasValue(): Boolean = value != null
+
+  companion object Static {
+    @JvmStatic
+    fun fromJson(json: String): DailyUVIndexForecast {
+      return GsonBuilder().create().fromJson(json, DailyUVIndexForecast::class.java)
+    }
+
+    @JvmStatic
+    fun toJson(pojo: DailyUVIndexForecast): String {
+      return GsonBuilder().create().toJson(pojo)
+    }
+
+    @JvmStatic
+    fun toJsonPretty(pojo: DailyUVIndexForecast): String {
+      return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
+    }
+  }
 }

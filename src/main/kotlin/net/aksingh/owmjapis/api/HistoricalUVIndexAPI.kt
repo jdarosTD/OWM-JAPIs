@@ -17,68 +17,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-package net.aksingh.owmjapis.model.param
+package net.aksingh.owmjapis.api
 
-import com.google.gson.GsonBuilder
-import com.google.gson.annotations.SerializedName
-import java.util.*
+import net.aksingh.owmjapis.model.HistoricalUVIndex
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-data class System(
-  @field:SerializedName("type")
-  val type: Int? = null,
+interface HistoricalUVIndexAPI {
 
-  @field:SerializedName("id")
-  val id: Int? = null,
+  @GET("uvi/history")
+  fun getHistoricalUVIndexByCoords(
+    @Query("lat") lat: Double,
+    @Query("lon") lon: Double,
+    @Query("start") startTime: Long,
+    @Query("end") endTime: Long
+  ): Call<List<HistoricalUVIndex>>
 
-  @field:SerializedName("message")
-  val message: Double? = null,
-
-  @field:SerializedName("country")
-  val countryCode: String? = null,
-
-  @field:SerializedName("sunrise")
-  private val sunrise: Int? = null,
-
-  @field:SerializedName("sunset")
-  private val sunset: Int? = null,
-
-  @field:SerializedName("pod")
-  val pod: String? = null
-) {
-
-  var sunriseDateTime: Date? = null
-    get() {
-      if (sunrise != null) {
-        return Date(sunrise.toLong() * 1000L)
-      }
-      return null
-    }
-
-  var sunsetDateTime: Date? = null
-    get() {
-      if (sunset != null) {
-        return Date(sunset.toLong() * 1000L)
-      }
-      return null
-    }
-
-  fun hasType(): Boolean = type != null
-
-  fun hasId(): Boolean = id != null
-
-  fun hasMessage(): Boolean = message != null
-
-  fun hasCountryCode(): Boolean = countryCode != null
-
-  fun hasSunriseDateTime(): Boolean = sunriseDateTime != null
-
-  fun hasSunsetDateTime(): Boolean = sunsetDateTime != null
-
-  fun toJson(): String {
-    return GsonBuilder().create().toJson(this)
-  }
-
-  fun toJsonPretty(): String {
-    return GsonBuilder().setPrettyPrinting().create().toJson(this)
-  }
+  @GET("uvi/history")
+  fun getHistoricalUVIndexByCoords(
+    @Query("lat") lat: Double,
+    @Query("lon") lon: Double,
+    @Query("cnt") count: Int,
+    @Query("start") startTime: Long,
+    @Query("end") endTime: Long
+  ): Call<List<HistoricalUVIndex>>
 }

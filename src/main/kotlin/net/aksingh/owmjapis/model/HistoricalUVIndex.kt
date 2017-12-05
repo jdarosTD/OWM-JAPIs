@@ -21,68 +21,55 @@ package net.aksingh.owmjapis.model
 
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
-import net.aksingh.owmjapis.model.param.City
-import net.aksingh.owmjapis.model.param.Data
+import java.util.*
 
-/**
- * <p>
- * Parses hourly forecast data and provides methods to get/access the same information.
- * This class provides <code>has</code> and <code>get</code> methods to access the information.
- * </p>
- * <p>
- * <code>has</code> methods can be used to check if the data exists, i.e., if the data was available
- * (successfully downloaded) and was parsed correctly.
- * <code>get</code> methods can be used to access the data, if the data exists, otherwise <code>get</code>
- * methods will give value as per following basis:
- * Others: <code>null</code>
- * </p>
- *
- * @author Ashutosh Kumar Singh
- * @version 2017/11/08
- *
- * @see [OpenWeatherMap.org's Weather Data API](https://openweathermap.org/forecast)
- * @since 2.5.1.0
- */
-data class HourlyForecast(
-  @field:SerializedName("cod")
-  var respCode: String? = null,
+data class HistoricalUVIndex(
+  @field:SerializedName("lat")
+  val latitude: Double? = null,
 
-  @field:SerializedName("message")
-  var message: Float? = null,
+  @field:SerializedName("lon")
+  val longitude: Double? = null,
 
-  @field:SerializedName("city")
-  var cityData: City? = null,
+  @field:SerializedName("date_iso")
+  val dateISO: Date? = null,
 
-  @field:SerializedName("cnt")
-  var dataCount: Int? = null,
+  @field:SerializedName("date")
+  private val date: Int? = null,
 
-  @field:SerializedName("list")
-  var dataList: List<Data?>? = null
+  @field:SerializedName("value")
+  val value: Double? = null
 ) {
+  var dateTime: Date? = null
+    get() {
+      if (date != null) {
+        return Date(date.toLong() * 1000L)
+      }
+      return null
+    }
 
-  fun hasRespCode(): Boolean = respCode != null
+  fun hasLongitude(): Boolean = longitude != null
 
-  fun hasMessage(): Boolean = message != null
+  fun hasLatitude(): Boolean = latitude != null
 
-  fun hasCityData(): Boolean = cityData != null
+  fun hasDateISO(): Boolean = dateISO != null
 
-  fun hasDataCount(): Boolean = dataCount != null
+  fun hasDateTime(): Boolean = dateTime != null
 
-  fun hasDataList(): Boolean = dataList != null
+  fun hasValue(): Boolean = value != null
 
   companion object Static {
     @JvmStatic
-    fun fromJson(json: String): HourlyForecast {
-      return GsonBuilder().create().fromJson(json, HourlyForecast::class.java)
+    fun fromJson(json: String): HistoricalUVIndex {
+      return GsonBuilder().create().fromJson(json, HistoricalUVIndex::class.java)
     }
 
     @JvmStatic
-    fun toJson(pojo: HourlyForecast): String {
+    fun toJson(pojo: HistoricalUVIndex): String {
       return GsonBuilder().create().toJson(pojo)
     }
 
     @JvmStatic
-    fun toJsonPretty(pojo: HourlyForecast): String {
+    fun toJsonPretty(pojo: HistoricalUVIndex): String {
       return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
     }
   }

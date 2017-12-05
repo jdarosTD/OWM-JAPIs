@@ -21,58 +21,23 @@ package net.aksingh.owmjapis.model.param
 
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
-data class System(
-  @field:SerializedName("type")
-  val type: Int? = null,
+data class AirPollutionData(
+  @field:SerializedName("pressure")
+  val pressure: Double? = null,
 
-  @field:SerializedName("id")
-  val id: Int? = null,
+  @field:SerializedName("precision")
+  val precision: Double? = null,
 
-  @field:SerializedName("message")
-  val message: Double? = null,
-
-  @field:SerializedName("country")
-  val countryCode: String? = null,
-
-  @field:SerializedName("sunrise")
-  private val sunrise: Int? = null,
-
-  @field:SerializedName("sunset")
-  private val sunset: Int? = null,
-
-  @field:SerializedName("pod")
-  val pod: String? = null
+  @field:SerializedName("value")
+  val value: Double? = null
 ) {
 
-  var sunriseDateTime: Date? = null
-    get() {
-      if (sunrise != null) {
-        return Date(sunrise.toLong() * 1000L)
-      }
-      return null
-    }
+  fun hasPressure(): Boolean = pressure != null
 
-  var sunsetDateTime: Date? = null
-    get() {
-      if (sunset != null) {
-        return Date(sunset.toLong() * 1000L)
-      }
-      return null
-    }
+  fun hasPrecision(): Boolean = precision != null
 
-  fun hasType(): Boolean = type != null
-
-  fun hasId(): Boolean = id != null
-
-  fun hasMessage(): Boolean = message != null
-
-  fun hasCountryCode(): Boolean = countryCode != null
-
-  fun hasSunriseDateTime(): Boolean = sunriseDateTime != null
-
-  fun hasSunsetDateTime(): Boolean = sunsetDateTime != null
+  fun hasValue(): Boolean = value != null
 
   fun toJson(): String {
     return GsonBuilder().create().toJson(this)

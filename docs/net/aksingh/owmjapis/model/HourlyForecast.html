@@ -1,3 +1,22 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2013-2017 Ashutosh Kumar Singh <ashutosh@aksingh.net>                           ~
+  ~                                                                                               ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this          ~
+  ~ software and associated documentation files (the "Software"), to deal in the Software without ~
+  ~ restriction, including without limitation the rights to use, copy, modify, merge, publish,    ~
+  ~ distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the ~
+  ~ Software is furnished to do so, subject to the following conditions:                          ~
+  ~                                                                                               ~
+  ~ The above copyright notice and this permission notice shall be included in all copies or      ~
+  ~ substantial portions of the Software.                                                         ~
+  ~                                                                                               ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING ~
+  ~ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    ~
+  ~ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  ~
+  ~ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,~
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.       ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- NewPage -->
 <html lang="en">
@@ -6,7 +25,7 @@
 <title>HourlyForecast</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="date" content="2017-11-10">
-<meta name="keywords" content="net.aksingh.owmjapis.model.HourlyForecast class">
+  <meta name="keywords" content="net.aksingh.owmjapis.model.HourlyWeatherForecast class">
 <meta name="keywords" content="Static">
 <meta name="keywords" content="hasRespCode()">
 <meta name="keywords" content="hasMessage()">
@@ -146,7 +165,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li>net.aksingh.owmjapis.model.HourlyForecast</li>
+  <li>net.aksingh.owmjapis.model.HourlyWeatherForecast</li>
 </ul>
 <div class="description">
 <ul class="blockList">
@@ -214,7 +233,8 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
               Float&nbsp;message,
               <a href="../../../../net/aksingh/owmjapis/model/param/City.html" title="type parameter in City">City</a>&nbsp;cityData,
               Integer&nbsp;dataCount,
-              List&lt;net.aksingh.owmjapis.model.param.Data&gt;&nbsp;dataList)</code>&nbsp;</td>
+  List&lt;net.aksingh.owmjapis.model.param.WeatherData&gt;&nbsp;dataList)</code>&nbsp;
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../net/aksingh/owmjapis/model/HourlyForecast.html#HourlyForecast--">HourlyForecast</a></span>()</code>&nbsp;</td>
@@ -251,7 +271,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/aksingh/owmjapis/model/HourlyForecast.html#component4--">component4</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>List&lt;net.aksingh.owmjapis.model.param.Data&gt;</code></td>
+  <td class="colFirst"><code>List&lt;net.aksingh.owmjapis.model.param.WeatherData&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/aksingh/owmjapis/model/HourlyForecast.html#component5--">component5</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -260,7 +280,8 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
     Float&nbsp;message,
     <a href="../../../../net/aksingh/owmjapis/model/param/City.html" title="type parameter in City">City</a>&nbsp;cityData,
     Integer&nbsp;dataCount,
-    List&lt;net.aksingh.owmjapis.model.param.Data&gt;&nbsp;dataList)</code>&nbsp;</td>
+  List&lt;net.aksingh.owmjapis.model.param.WeatherData&gt;&nbsp;dataList)</code>&nbsp;
+</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -279,7 +300,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/aksingh/owmjapis/model/HourlyForecast.html#getDataCount--">getDataCount</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>List&lt;net.aksingh.owmjapis.model.param.Data&gt;</code></td>
+  <td class="colFirst"><code>List&lt;net.aksingh.owmjapis.model.param.WeatherData&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/aksingh/owmjapis/model/HourlyForecast.html#getDataList--">getDataList</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
@@ -324,7 +345,9 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 </tr>
 <tr id="i21" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/aksingh/owmjapis/model/HourlyForecast.html#setDataList-p-">setDataList</a></span>(List&lt;net.aksingh.owmjapis.model.param.Data&gt;&nbsp;p)</code>&nbsp;</td>
+  <td class="colLast"><code><span class="memberNameLink"><a
+    href="../../../../net/aksingh/owmjapis/model/HourlyForecast.html#setDataList-p-">setDataList</a></span>(List&lt;net.aksingh.owmjapis.model.param.WeatherData&gt;&nbsp;p)</code>&nbsp;
+  </td>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>void</code></td>
@@ -388,7 +411,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
                       Float&nbsp;message,
                       <a href="../../../../net/aksingh/owmjapis/model/param/City.html" title="type parameter in City">City</a>&nbsp;cityData,
                       Integer&nbsp;dataCount,
-                      List&lt;net.aksingh.owmjapis.model.param.Data&gt;&nbsp;dataList)</pre>
+                      List&lt;net.aksingh.owmjapis.model.param.WeatherData&gt;&nbsp;dataList)</pre>
 </li>
 </ul>
 <a name="HourlyForecast--">
@@ -531,7 +554,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 <ul class="blockList">
 <li class="blockList">
 <h4>getDataList</h4>
-<pre>public&nbsp;List&lt;net.aksingh.owmjapis.model.param.Data&gt;&nbsp;getDataList()</pre>
+  <pre>public&nbsp;List&lt;net.aksingh.owmjapis.model.param.WeatherData&gt;&nbsp;getDataList()</pre>
 </li>
 </ul>
 <a name="setDataList-p-">
@@ -540,7 +563,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 <ul class="blockList">
 <li class="blockList">
 <h4>setDataList</h4>
-<pre>public&nbsp;void&nbsp;setDataList(List&lt;net.aksingh.owmjapis.model.param.Data&gt;&nbsp;p)</pre>
+  <pre>public&nbsp;void&nbsp;setDataList(List&lt;net.aksingh.owmjapis.model.param.WeatherData&gt;&nbsp;p)</pre>
 </li>
 </ul>
 <a name="component1--">
@@ -585,7 +608,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 <ul class="blockList">
 <li class="blockList">
 <h4>component5</h4>
-<pre>public&nbsp;List&lt;net.aksingh.owmjapis.model.param.Data&gt;&nbsp;component5()</pre>
+  <pre>public&nbsp;List&lt;net.aksingh.owmjapis.model.param.WeatherData&gt;&nbsp;component5()</pre>
 </li>
 </ul>
 <a name="copy-respCode-message-cityData-dataCount-dataList-">
@@ -598,7 +621,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
                            Float&nbsp;message,
                            <a href="../../../../net/aksingh/owmjapis/model/param/City.html" title="type parameter in City">City</a>&nbsp;cityData,
                            Integer&nbsp;dataCount,
-                           List&lt;net.aksingh.owmjapis.model.param.Data&gt;&nbsp;dataList)</pre>
+                           List&lt;net.aksingh.owmjapis.model.param.WeatherData&gt;&nbsp;dataList)</pre>
 </li>
 </ul>
 <a name="toString--">

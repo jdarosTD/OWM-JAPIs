@@ -1,3 +1,22 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2013-2017 Ashutosh Kumar Singh <ashutosh@aksingh.net>                           ~
+  ~                                                                                               ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this          ~
+  ~ software and associated documentation files (the "Software"), to deal in the Software without ~
+  ~ restriction, including without limitation the rights to use, copy, modify, merge, publish,    ~
+  ~ distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the ~
+  ~ Software is furnished to do so, subject to the following conditions:                          ~
+  ~                                                                                               ~
+  ~ The above copyright notice and this permission notice shall be included in all copies or      ~
+  ~ substantial portions of the Software.                                                         ~
+  ~                                                                                               ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING ~
+  ~ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    ~
+  ~ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  ~
+  ~ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,~
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.       ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- NewPage -->
 <html lang="en">
@@ -6,7 +25,7 @@
 <title>HourlyForecastAPI</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="date" content="2017-11-10">
-<meta name="keywords" content="net.aksingh.owmjapis.api.HourlyForecastAPI interface">
+  <meta name="keywords" content="net.aksingh.owmjapis.api.HourlyWeatherForecastAPI interface">
 <meta name="keywords" content="getHourlyForecastByCityName()">
 <meta name="keywords" content="getHourlyForecastByCityId()">
 <meta name="keywords" content="getHourlyForecastByCoords()">
@@ -146,20 +165,20 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyForecast&gt;</code></td>
+  <td class="colFirst"><code>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyWeatherForecast&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/aksingh/owmjapis/api/HourlyForecastAPI.html#getHourlyForecastByCityId-id-">getHourlyForecastByCityId</a></span>(int&nbsp;id)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyForecast&gt;</code></td>
+  <td class="colFirst"><code>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyWeatherForecast&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/aksingh/owmjapis/api/HourlyForecastAPI.html#getHourlyForecastByCityName-name-">getHourlyForecastByCityName</a></span>(String&nbsp;name)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyForecast&gt;</code></td>
+  <td class="colFirst"><code>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyWeatherForecast&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/aksingh/owmjapis/api/HourlyForecastAPI.html#getHourlyForecastByCoords-lat-lon-">getHourlyForecastByCoords</a></span>(float&nbsp;lat,
                          float&nbsp;lon)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyForecast&gt;</code></td>
+  <td class="colFirst"><code>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyWeatherForecast&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../net/aksingh/owmjapis/api/HourlyForecastAPI.html#getHourlyForecastByZipCode-zip-">getHourlyForecastByZipCode</a></span>(String&nbsp;zip)</code>&nbsp;</td>
 </tr>
 </table>
@@ -183,7 +202,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 <ul class="blockList">
 <li class="blockList">
 <h4>getHourlyForecastByCityName</h4>
-<pre>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyForecast&gt;&nbsp;getHourlyForecastByCityName(String&nbsp;name)</pre>
+  <pre>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyWeatherForecast&gt;&nbsp;getHourlyForecastByCityName(String&nbsp;name)</pre>
 </li>
 </ul>
 <a name="getHourlyForecastByCityId-id-">
@@ -192,7 +211,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 <ul class="blockList">
 <li class="blockList">
 <h4>getHourlyForecastByCityId</h4>
-<pre>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyForecast&gt;&nbsp;getHourlyForecastByCityId(int&nbsp;id)</pre>
+  <pre>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyWeatherForecast&gt;&nbsp;getHourlyForecastByCityId(int&nbsp;id)</pre>
 </li>
 </ul>
 <a name="getHourlyForecastByCoords-lat-lon-">
@@ -201,7 +220,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 <ul class="blockList">
 <li class="blockList">
 <h4>getHourlyForecastByCoords</h4>
-<pre>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyForecast&gt;&nbsp;getHourlyForecastByCoords(float&nbsp;lat,
+  <pre>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyWeatherForecast&gt;&nbsp;getHourlyForecastByCoords(float&nbsp;lat,
                                                                                     float&nbsp;lon)</pre>
 </li>
 </ul>
@@ -211,7 +230,7 @@ var pathtoroot = "../../../../";loadScripts(document, 'script');</script>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getHourlyForecastByZipCode</h4>
-<pre>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyForecast&gt;&nbsp;getHourlyForecastByZipCode(String&nbsp;zip)</pre>
+  <pre>retrofit2.Call&lt;net.aksingh.owmjapis.model.HourlyWeatherForecast&gt;&nbsp;getHourlyForecastByZipCode(String&nbsp;zip)</pre>
 </li>
 </ul>
 </li>

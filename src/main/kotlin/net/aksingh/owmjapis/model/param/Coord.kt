@@ -23,16 +23,16 @@ import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 
 data class Coord(
-  @field:SerializedName("lon")
-  val longitude: Float? = null,
-
   @field:SerializedName("lat")
-  val latitude: Float? = null
+  val latitude: Double? = null,
+
+  @field:SerializedName("lon")
+  val longitude: Double? = null
 ) {
 
-  fun hasLongitude(): Boolean = longitude != null
-
   fun hasLatitude(): Boolean = latitude != null
+
+  fun hasLongitude(): Boolean = longitude != null
 
   fun toJson(): String {
     return GsonBuilder().create().toJson(this)

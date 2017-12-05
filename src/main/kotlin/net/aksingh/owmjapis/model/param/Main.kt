@@ -24,28 +24,28 @@ import com.google.gson.annotations.SerializedName
 
 data class Main(
   @field:SerializedName("temp")
-  val temp: Float? = null,
+  val temp: Double? = null,
 
   @field:SerializedName("temp_min")
-  val tempMin: Float? = null,
+  val tempMin: Double? = null,
 
   @field:SerializedName("temp_max")
-  val tempMax: Float? = null,
+  val tempMax: Double? = null,
 
   @field:SerializedName("pressure")
-  val pressure: Float? = null,
+  val pressure: Double? = null,
 
   @field:SerializedName("sea_level")
-  val seaLevel: Float? = null,
+  val seaLevel: Double? = null,
 
   @field:SerializedName("grnd_level")
-  val groundLevel: Float? = null,
+  val groundLevel: Double? = null,
 
   @field:SerializedName("humidity")
   val humidity: Int? = null,
 
   @field:SerializedName("temp_kf")
-  val tempKf: Float? = null
+  val tempKf: Double? = null
 ) {
 
   fun hasTemp(): Boolean = temp != null
