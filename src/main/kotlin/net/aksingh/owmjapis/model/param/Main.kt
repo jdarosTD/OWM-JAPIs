@@ -64,11 +64,20 @@ data class Main(
 
   fun hasTempKf(): Boolean = tempKf != null
 
-  fun toJson(): String {
-    return GsonBuilder().create().toJson(this)
-  }
+  companion object Static {
+    @JvmStatic
+    fun fromJson(json: String): Main {
+      return GsonBuilder().create().fromJson(json, Main::class.java)
+    }
 
-  fun toJsonPretty(): String {
-    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    @JvmStatic
+    fun toJson(pojo: Main): String {
+      return GsonBuilder().create().toJson(pojo)
+    }
+
+    @JvmStatic
+    fun toJsonPretty(pojo: Main): String {
+      return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
+    }
   }
 }

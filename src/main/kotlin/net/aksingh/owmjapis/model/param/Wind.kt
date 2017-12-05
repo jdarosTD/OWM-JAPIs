@@ -39,11 +39,20 @@ data class Wind(
 
   fun hasGust(): Boolean = gust != null
 
-  fun toJson(): String {
-    return GsonBuilder().create().toJson(this)
-  }
+  companion object Static {
+    @JvmStatic
+    fun fromJson(json: String): Wind {
+      return GsonBuilder().create().fromJson(json, Wind::class.java)
+    }
 
-  fun toJsonPretty(): String {
-    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    @JvmStatic
+    fun toJson(pojo: Wind): String {
+      return GsonBuilder().create().toJson(pojo)
+    }
+
+    @JvmStatic
+    fun toJsonPretty(pojo: Wind): String {
+      return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
+    }
   }
 }

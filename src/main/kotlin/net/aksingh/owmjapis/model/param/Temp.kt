@@ -54,11 +54,20 @@ data class Temp(
 
   fun hasTempMorning(): Boolean = tempMorning != null
 
-  fun toJson(): String {
-    return GsonBuilder().create().toJson(this)
-  }
+  companion object Static {
+    @JvmStatic
+    fun fromJson(json: String): Temp {
+      return GsonBuilder().create().fromJson(json, Temp::class.java)
+    }
 
-  fun toJsonPretty(): String {
-    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    @JvmStatic
+    fun toJson(pojo: Temp): String {
+      return GsonBuilder().create().toJson(pojo)
+    }
+
+    @JvmStatic
+    fun toJsonPretty(pojo: Temp): String {
+      return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
+    }
   }
 }

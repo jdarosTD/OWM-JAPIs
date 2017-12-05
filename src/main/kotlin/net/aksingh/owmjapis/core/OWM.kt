@@ -240,7 +240,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun currentWeatherByCityName(cityName: String): CurrentWeather {
-    var api = retrofit4weather.create(CurrentWeatherAPI::class.java)
+    val api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
     val apiCall = api.getCurrentWeatherByCityName(cityName)
     val apiResp = apiCall.execute()
@@ -266,7 +266,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun currentWeatherByCityId(cityId: Int): CurrentWeather {
-    var api = retrofit4weather.create(CurrentWeatherAPI::class.java)
+    val api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
     val apiCall = api.getCurrentWeatherByCityId(cityId)
     val apiResp = apiCall.execute()
@@ -285,7 +285,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun currentWeatherByCoords(latitude: Double, longitude: Double): CurrentWeather {
-    var api = retrofit4weather.create(CurrentWeatherAPI::class.java)
+    val api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
     val apiCall = api.getCurrentWeatherByCoords(latitude, longitude)
     val apiResp = apiCall.execute()
@@ -309,7 +309,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun currentWeatherByZipCode(zipCode: Int, countryCode: OWM.Country): CurrentWeather {
-    var api = retrofit4weather.create(CurrentWeatherAPI::class.java)
+    val api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
     val apiCall = api.getCurrentWeatherByZipCode(zipCode.toString() + "," + countryCode)
     val apiResp = apiCall.execute()
@@ -328,7 +328,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun hourlyWeatherForecastByCityName(cityName: String): HourlyWeatherForecast {
-    var api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
+    val api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
 
     val apiCall = api.getHourlyWeatherForecastByCityName(cityName)
     val apiResp = apiCall.execute()
@@ -352,7 +352,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun hourlyWeatherForecastByCityId(cityId: Int): HourlyWeatherForecast {
-    var api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
+    val api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
 
     val apiCall = api.getHourlyWeatherForecastByCityId(cityId)
     val apiResp = apiCall.execute()
@@ -371,7 +371,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun hourlyWeatherForecastByCoords(latitude: Double, longitude: Double): HourlyWeatherForecast {
-    var api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
+    val api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
 
     val apiCall = api.getHourlyWeatherForecastByCoords(latitude, longitude)
     val apiResp = apiCall.execute()
@@ -395,7 +395,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun hourlyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country): HourlyWeatherForecast {
-    var api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
+    val api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
 
     val apiCall = api.getHourlyWeatherForecastByZipCode(zipCode.toString() + "," + countryCode)
     val apiResp = apiCall.execute()
@@ -419,7 +419,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByCityName(cityName: String, count: Int): DailyWeatherForecast {
-    var api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
+    val api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
 
     val apiCall = api.getDailyWeatherForecastByCityName(cityName, count)
     val apiResp = apiCall.execute()
@@ -453,7 +453,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByCityId(cityId: Int, count: Int): DailyWeatherForecast {
-    var api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
+    val api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
 
     val apiCall = api.getDailyWeatherForecastByCityId(cityId, count)
     val apiResp = apiCall.execute()
@@ -477,7 +477,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByCoords(latitude: Double, longitude: Double, count: Int): DailyWeatherForecast {
-    var api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
+    val api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
 
     val apiCall = api.getDailyWeatherForecastByCoords(latitude, longitude, count)
     val apiResp = apiCall.execute()
@@ -511,7 +511,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country, count: Int): DailyWeatherForecast {
-    var api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
+    val api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
 
     val apiCall = api.getDailyWeatherForecastByZipCode(zipCode.toString() + "," + countryCode, count)
     val apiResp = apiCall.execute()
@@ -530,7 +530,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun currentUVIndexByCoords(latitude: Double, longitude: Double): CurrentUVIndex {
-    var api = retrofit4other.create(CurrentUVIndexAPI::class.java)
+    val api = retrofit4other.create(CurrentUVIndexAPI::class.java)
 
     val apiCall = api.getCurrentUVIndexByCoords(latitude, longitude)
     val apiResp = apiCall.execute()
@@ -549,7 +549,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyUVIndexForecastByCoords(latitude: Double, longitude: Double): List<DailyUVIndexForecast> {
-    var api = retrofit4other.create(DailyUVIndexForecastAPI::class.java)
+    val api = retrofit4other.create(DailyUVIndexForecastAPI::class.java)
 
     val apiCall = api.getDailyUVIndexForecastByCoords(latitude, longitude)
     val apiResp = apiCall.execute()
@@ -568,7 +568,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun historicalUVIndexByCoords(latitude: Double, longitude: Double, count: Int, startTime: Long, endTime: Long): List<HistoricalUVIndex> {
-    var api = retrofit4other.create(HistoricalUVIndexAPI::class.java)
+    val api = retrofit4other.create(HistoricalUVIndexAPI::class.java)
 
     val apiCall = api.getHistoricalUVIndexByCoords(latitude, longitude, count, startTime, endTime)
     val apiResp = apiCall.execute()
@@ -602,7 +602,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun airPollutionByCoords(latitude: Double, longitude: Double, dateTime: String): AirPollution {
-    var api = retrofit4pollution.create(AirPollutionAPI::class.java)
+    val api = retrofit4pollution.create(AirPollutionAPI::class.java)
 
     val apiCall = api.getAirPollutionByCoords(latitude, longitude, dateTime)
     val apiResp = apiCall.execute()

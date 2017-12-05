@@ -74,11 +74,20 @@ data class System(
 
   fun hasSunsetDateTime(): Boolean = sunsetDateTime != null
 
-  fun toJson(): String {
-    return GsonBuilder().create().toJson(this)
-  }
+  companion object Static {
+    @JvmStatic
+    fun fromJson(json: String): System {
+      return GsonBuilder().create().fromJson(json, System::class.java)
+    }
 
-  fun toJsonPretty(): String {
-    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    @JvmStatic
+    fun toJson(pojo: System): String {
+      return GsonBuilder().create().toJson(pojo)
+    }
+
+    @JvmStatic
+    fun toJsonPretty(pojo: System): String {
+      return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
+    }
   }
 }

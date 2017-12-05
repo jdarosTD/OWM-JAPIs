@@ -29,11 +29,20 @@ data class Rain(
 
   fun hasPrecipVol3h(): Boolean = precipVol3h != null
 
-  fun toJson(): String {
-    return GsonBuilder().create().toJson(this)
-  }
+  companion object Static {
+    @JvmStatic
+    fun fromJson(json: String): Rain {
+      return GsonBuilder().create().fromJson(json, Rain::class.java)
+    }
 
-  fun toJsonPretty(): String {
-    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    @JvmStatic
+    fun toJson(pojo: Rain): String {
+      return GsonBuilder().create().toJson(pojo)
+    }
+
+    @JvmStatic
+    fun toJsonPretty(pojo: Rain): String {
+      return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
+    }
   }
 }

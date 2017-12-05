@@ -21,6 +21,7 @@ package net.aksingh.owmjapis.model.param
 
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
+import net.aksingh.owmjapis.util.WeatherConditions
 
 data class Weather(
   @field:SerializedName("id")
@@ -36,6 +37,14 @@ data class Weather(
   val iconCode: String? = null
 ) {
 
+  fun getDescription(): String {
+    return WeatherConditions.getDescription(conditionId!!)
+  }
+
+  fun getIconLink(): String {
+    return WeatherConditions.getIconLink(iconCode!!)
+  }
+
   fun hasConditionId(): Boolean = conditionId != null
 
   fun hasMainInfo(): Boolean = mainInfo != null
@@ -44,11 +53,24 @@ data class Weather(
 
   fun hasIconCode(): Boolean = iconCode != null
 
-  fun toJson(): String {
-    return GsonBuilder().create().toJson(this)
-  }
+  fun hasDescription(): Boolean = !getDescription().equals("unknown weather condition")
 
-  fun toJsonPretty(): String {
-    return GsonBuilder().setPrettyPrinting().create().toJson(this)
+  fun hasIconLink(): Boolean = !getIconLink().isEmpty()
+
+  companion object Static {
+    @JvmStatic
+    fun fromJson(json: String): Weather {
+      return GsonBuilder().create().fromJson(json, Weather::class.java)
+    }
+
+    @JvmStatic
+    fun toJson(pojo: Weather): String {
+      return GsonBuilder().create().toJson(pojo)
+    }
+
+    @JvmStatic
+    fun toJsonPretty(pojo: Weather): String {
+      return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
+    }
   }
 }
