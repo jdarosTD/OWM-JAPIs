@@ -2,6 +2,14 @@
 ###2.5 (Compatible with OpenWeatherMap.org's API v2.5)
 
 
+####2.5.2.2
+
+**Minor version**
+
+1. Fixed all reported bugs
+2. Improved codebase per Kotlin's standards
+
+
 ####2.5.2.1
 
 **Minor version**
