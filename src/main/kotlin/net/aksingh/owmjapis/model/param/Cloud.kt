@@ -24,10 +24,10 @@ import com.google.gson.annotations.SerializedName
 
 data class Cloud(
   @field:SerializedName("all")
-  val cloudiness: Int? = null
+  val cloud: Int? = null
 ) {
 
-  fun hasCloudiness(): Boolean = cloudiness != null
+  fun hasCloud(): Boolean = cloud != null
 
   companion object Static {
     @JvmStatic

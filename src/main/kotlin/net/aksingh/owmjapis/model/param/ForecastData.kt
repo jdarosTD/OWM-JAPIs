@@ -17,53 +17,85 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.        *
  **************************************************************************************************/
 
-package net.aksingh.owmjapis.model
+package net.aksingh.owmjapis.model.param
 
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
-import net.aksingh.owmjapis.model.param.City
-import net.aksingh.owmjapis.model.param.ForecastData
+import java.util.*
 
-data class DailyWeatherForecast(
-  @field:SerializedName("cod")
-  var respCode: String? = null,
+data class ForecastData(
+  @field:SerializedName("dt")
+  private val dt: Int? = null,
 
-  @field:SerializedName("message")
-  var message: Double? = null,
+  @field:SerializedName("temp")
+  val tempData: Temp? = null,
 
-  @field:SerializedName("city")
-  var cityData: City? = null,
+  @field:SerializedName("pressure")
+  val pressure: Double? = null,
 
-  @field:SerializedName("cnt")
-  var dataCount: Int? = null,
+  @field:SerializedName("humidity")
+  val humidity: Int? = null,
 
-  @field:SerializedName("list")
-  var dataList: List<ForecastData?>? = null
+  @field:SerializedName("weather")
+  val weatherList: List<Weather?>? = null,
+
+  @field:SerializedName("speed")
+  val speed: Double? = null,
+
+  @field:SerializedName("deg")
+  val degree: Double? = null,
+
+  @field:SerializedName("clouds")
+  val cloud: Int? = null,
+
+  @field:SerializedName("rain")
+  val rain: Double? = null,
+
+  @field:SerializedName("snow")
+  val snow: Int? = null
 ) {
 
-  fun hasRespCode(): Boolean = respCode != null
+  var dateTime: Date? = null
+    get() {
+      if (dt != null) {
+        return Date(dt.toLong() * 1000L)
+      }
+      return null
+    }
 
-  fun hasMessage(): Boolean = message != null
+  fun hasDateTime(): Boolean = dateTime != null
 
-  fun hasCityData(): Boolean = cityData != null
+  fun hasTempData(): Boolean = tempData != null
 
-  fun hasDataCount(): Boolean = dataCount != null
+  fun hasPressure(): Boolean = pressure != null
 
-  fun hasDataList(): Boolean = dataList != null
+  fun hasHumidity(): Boolean = humidity != null
+
+  fun hasWeatherList(): Boolean = weatherList != null
+
+  fun hasSpeed(): Boolean = speed != null
+
+  fun hasDegree(): Boolean = degree != null
+
+  fun hasCloud(): Boolean = cloud != null
+
+  fun hasRain(): Boolean = rain != null
+
+  fun hasSnow(): Boolean = snow != null
 
   companion object Static {
     @JvmStatic
-    fun fromJson(json: String): DailyWeatherForecast {
-      return GsonBuilder().create().fromJson(json, DailyWeatherForecast::class.java)
+    fun fromJson(json: String): ForecastData {
+      return GsonBuilder().create().fromJson(json, ForecastData::class.java)
     }
 
     @JvmStatic
-    fun toJson(pojo: DailyWeatherForecast): String {
+    fun toJson(pojo: ForecastData): String {
       return GsonBuilder().create().toJson(pojo)
     }
 
     @JvmStatic
-    fun toJsonPretty(pojo: DailyWeatherForecast): String {
+    fun toJsonPretty(pojo: ForecastData): String {
       return GsonBuilder().setPrettyPrinting().create().toJson(pojo)
     }
   }
