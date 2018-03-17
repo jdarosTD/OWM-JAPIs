@@ -21,6 +21,7 @@ package net.aksingh.owmjapis.model.param
 
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class WeatherData(
   @field:SerializedName("dt")

@@ -144,7 +144,9 @@ class OWM {
    * @param proxy Proxy
    */
   fun setProxy(proxy: Proxy): OWM {
-    this.retrofit4weather = createRetrofit4WeatherInstance(proxy)
+    this.proxy = proxy
+
+    this.retrofit4weather = createRetrofit4WeatherInstance(this.proxy)
     this.retrofit4pollution = createRetrofit4PollutionInstance(this.proxy)
     this.retrofit4other = createRetrofit4OtherInstance(this.proxy)
 
@@ -243,6 +245,7 @@ class OWM {
     val api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
     val apiCall = api.getCurrentWeatherByCityName(cityName)
+    println("apiCall = ${apiCall.request()}")
     val apiResp = apiCall.execute()
     var weather = apiResp.body()
 
@@ -638,11 +641,11 @@ class OWM {
     val clientBuilder = OkHttpClient.Builder().proxy(proxy)
 
     OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
-    OkHttpTools.addQueryParameter(clientBuilder, "type", accuracy.toString())
-    OkHttpTools.addQueryParameter(clientBuilder, "lang", lang.toString())
+    OkHttpTools.addQueryParameter(clientBuilder, "type", accuracy.value)
+    OkHttpTools.addQueryParameter(clientBuilder, "lang", lang.value)
 
     if (unit != OWM.Unit.STANDARD) {
-      OkHttpTools.addQueryParameter(clientBuilder, "units", unit.toString())
+      OkHttpTools.addQueryParameter(clientBuilder, "units", unit.value)
     }
 
     val client = clientBuilder.build()
@@ -703,8 +706,7 @@ class OWM {
    *
    * [OpenWeatherMap.org's Search accuracy][https://openweathermap.org/current#accuracy]
    */
-  enum class Accuracy
-  constructor(private val accuracy: String) {
+  enum class Accuracy(val value: String) {
     ACCURATE("accurate"),
     LIKE("like")
   }
@@ -714,8 +716,7 @@ class OWM {
    *
    * [OpenWeatherMap.org's Units format][https://openweathermap.org/current#data]
    */
-  enum class Unit
-  constructor(private val unit: String) {
+  enum class Unit(val value: String) {
     IMPERIAL("imperial"),
     METRIC("metric"),
     STANDARD("standard")
@@ -726,8 +727,7 @@ class OWM {
    *
    * [OpenWeatherMap.org's Multilingual support][https://openweathermap.org/current#multi]
    */
-  enum class Language
-  constructor(private val lang: String) {
+  enum class Language(val value: String) {
     ARABIC("ar"),
     BULGARIAN("bg"),
     CATALAN("ca"),
@@ -766,8 +766,7 @@ class OWM {
   /**
    * Country that can be set for getting data from OpenWeatherMap.org
    */
-  enum class Country
-  constructor(private val country: String) {
+  enum class Country(val value: String) {
     AFGHANISTAN("AF"),
     ALAND_ISLANDS("AX"),
     ALBANIA("AL"),

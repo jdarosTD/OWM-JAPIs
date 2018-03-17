@@ -19,6 +19,8 @@
 
 package net.aksingh.owmjapis.util
 
+import java.net.*
+
 /**
  * Provides methods for system handling.
  *
