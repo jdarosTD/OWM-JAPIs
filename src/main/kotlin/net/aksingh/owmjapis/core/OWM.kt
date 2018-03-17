@@ -31,7 +31,6 @@ import java.net.InetSocketAddress
 import java.net.Proxy
 import java.util.*
 
-
 /**
  * **Starting point for this lib.** If you're new to this API, start from this class.
  *
@@ -47,7 +46,7 @@ import java.util.*
  * [OpenWeatherMap.org APIs](https://openweathermap.org/api/)
  *
  * @author Ashutosh Kumar Singh
- * @version 2017-11-07
+ * @version 2018-03-17
  *
  * @since 2.5.1.0
  */
@@ -59,7 +58,13 @@ class OWM {
 
   private val OWM_POLLUTION_V10_BASE_URL: String = "https://api.openweathermap.org/pollution/v1/"
 
-  private var apiKey: String
+  var accuracy: OWM.Accuracy = OWM.Accuracy.LIKE
+    set(value) {
+      field = value
+      retrofit4weather = createRetrofit4WeatherInstance(proxy)
+    }
+
+  var apiKey: String
     set(value) {
       if (value.isEmpty() || value.isBlank()) {
         throw IllegalArgumentException("API key can't be empty/blank. Kindly get an API key from OpenWeatherMap.org")
@@ -68,14 +73,29 @@ class OWM {
       field = value
     }
 
-  private var accuracy: OWM.Accuracy
-  private var unit: OWM.Unit
-  private var lang: OWM.Language
-  private var proxy: Proxy
+  var language: OWM.Language = OWM.Language.ENGLISH
+    set(value) {
+      field = value
+      retrofit4weather = createRetrofit4WeatherInstance(proxy)
+    }
 
-  private var retrofit4weather: Retrofit
+  var proxy: Proxy = SystemTools.getSystemProxy()
+    set(value) {
+      field = value
+      retrofit4weather = createRetrofit4WeatherInstance(proxy)
+    }
+
+  var unit: OWM.Unit = OWM.Unit.STANDARD
+    set(value) {
+      field = value
+      retrofit4others = createRetrofit4OthersInstance(proxy)
+      retrofit4pollution = createRetrofit4PollutionInstance(proxy)
+      retrofit4weather = createRetrofit4WeatherInstance(proxy)
+    }
+
+  private var retrofit4others: Retrofit
   private var retrofit4pollution: Retrofit
-  private var retrofit4other: Retrofit
+  private var retrofit4weather: Retrofit
 
   /**
    * Constructor
@@ -92,65 +112,9 @@ class OWM {
   constructor(apiKey: String) {
     this.apiKey = apiKey
 
-    this.accuracy = OWM.Accuracy.LIKE
-    this.unit = OWM.Unit.STANDARD
-    this.lang = OWM.Language.ENGLISH
-    this.proxy = SystemTools.getSystemProxy()
-
-    this.retrofit4weather = createRetrofit4WeatherInstance(this.proxy)
-    this.retrofit4pollution = createRetrofit4PollutionInstance(this.proxy)
-    this.retrofit4other = createRetrofit4OtherInstance(this.proxy)
-  }
-
-  /**
-   * Set search accuracy for getting data from OpenWeatherMap.org
-   *
-   * @param accuracy Search accuracy
-   */
-  fun setAccuracy(accuracy: OWM.Accuracy): OWM {
-    this.accuracy = accuracy
-    this.retrofit4weather = createRetrofit4WeatherInstance(this.proxy)
-
-    return this
-  }
-
-  /**
-   * Set unit for getting data from OpenWeatherMap.org
-   *
-   * @param unit Unit
-   */
-  fun setUnit(unit: OWM.Unit): OWM {
-    this.unit = unit
-    this.retrofit4weather = createRetrofit4WeatherInstance(this.proxy)
-
-    return this
-  }
-
-  /**
-   * Set language for getting data from OpenWeatherMap.org
-   *
-   * @param lang Language
-   */
-  fun setLanguage(lang: OWM.Language): OWM {
-    this.lang = lang
-    this.retrofit4weather = createRetrofit4WeatherInstance(this.proxy)
-
-    return this
-  }
-
-  /**
-   * Set proxy for getting data from OpenWeatherMap.org
-   *
-   * @param proxy Proxy
-   */
-  fun setProxy(proxy: Proxy): OWM {
-    this.proxy = proxy
-
-    this.retrofit4weather = createRetrofit4WeatherInstance(this.proxy)
-    this.retrofit4pollution = createRetrofit4PollutionInstance(this.proxy)
-    this.retrofit4other = createRetrofit4OtherInstance(this.proxy)
-
-    return this
+    retrofit4weather = createRetrofit4WeatherInstance(proxy)
+    retrofit4pollution = createRetrofit4PollutionInstance(proxy)
+    retrofit4others = createRetrofit4OthersInstance(proxy)
   }
 
   /**
@@ -161,7 +125,7 @@ class OWM {
    * @param pass Password for the proxy
    */
   fun setProxy(proxy: Proxy, user: String, pass: String): OWM {
-    setProxy(proxy)
+    this.proxy = proxy
     SystemTools.setProxyAuthDetails(user, pass)
 
     return this
@@ -188,7 +152,7 @@ class OWM {
    */
   fun setProxy(host: String, port: Int, type: Proxy.Type): OWM {
     proxy = Proxy(type, InetSocketAddress(host, port))
-    setProxy(proxy)
+    this.proxy = proxy
 
     return this
   }
@@ -227,7 +191,7 @@ class OWM {
    * Remove proxy (i.e., direct connection) for getting data from OpenWeatherMap.org
    */
   fun setNoProxy(): OWM {
-    setProxy(Proxy.NO_PROXY)
+    proxy = Proxy.NO_PROXY
 
     return this
   }
@@ -236,7 +200,7 @@ class OWM {
    * Reset proxy to system's proxy for getting data from OpenWeatherMap.org
    */
   fun resetProxy() {
-    setProxy(SystemTools.getSystemProxy())
+    this.proxy = SystemTools.getSystemProxy()
     SystemTools.setProxyAuthDetails("", "")
   }
 
@@ -245,7 +209,8 @@ class OWM {
     val api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
     val apiCall = api.getCurrentWeatherByCityName(cityName)
-    println("apiCall = ${apiCall.request()}")
+
+
     val apiResp = apiCall.execute()
     var weather = apiResp.body()
 
@@ -533,7 +498,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun currentUVIndexByCoords(latitude: Double, longitude: Double): CurrentUVIndex {
-    val api = retrofit4other.create(CurrentUVIndexAPI::class.java)
+    val api = retrofit4others.create(CurrentUVIndexAPI::class.java)
 
     val apiCall = api.getCurrentUVIndexByCoords(latitude, longitude)
     val apiResp = apiCall.execute()
@@ -552,7 +517,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyUVIndexForecastByCoords(latitude: Double, longitude: Double): List<DailyUVIndexForecast> {
-    val api = retrofit4other.create(DailyUVIndexForecastAPI::class.java)
+    val api = retrofit4others.create(DailyUVIndexForecastAPI::class.java)
 
     val apiCall = api.getDailyUVIndexForecastByCoords(latitude, longitude)
     val apiResp = apiCall.execute()
@@ -571,7 +536,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun historicalUVIndexByCoords(latitude: Double, longitude: Double, count: Int, startTime: Long, endTime: Long): List<HistoricalUVIndex> {
-    val api = retrofit4other.create(HistoricalUVIndexAPI::class.java)
+    val api = retrofit4others.create(HistoricalUVIndexAPI::class.java)
 
     val apiCall = api.getHistoricalUVIndexByCoords(latitude, longitude, count, startTime, endTime)
     val apiResp = apiCall.execute()
@@ -642,7 +607,9 @@ class OWM {
 
     OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
     OkHttpTools.addQueryParameter(clientBuilder, "type", accuracy.value)
-    OkHttpTools.addQueryParameter(clientBuilder, "lang", lang.value)
+    OkHttpTools.addQueryParameter(clientBuilder, "lang", language.value)
+
+
 
     if (unit != OWM.Unit.STANDARD) {
       OkHttpTools.addQueryParameter(clientBuilder, "units", unit.value)
@@ -685,7 +652,7 @@ class OWM {
    *
    * @param proxy Proxy
    */
-  private fun createRetrofit4OtherInstance(proxy: Proxy): Retrofit {
+  private fun createRetrofit4OthersInstance(proxy: Proxy): Retrofit {
     val clientBuilder = OkHttpClient.Builder().proxy(proxy)
 
     OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
