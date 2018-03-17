@@ -27,6 +27,9 @@ import net.aksingh.owmjapis.util.SystemTools
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.InetSocketAddress
+import java.net.Proxy
+import java.util.*
 
 
 /**

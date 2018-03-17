@@ -24,11 +24,11 @@ apply plugin: "org.jetbrains.dokka"
 apply plugin: "maven"
 apply plugin: "signing"
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 group = "net.aksingh"
 archivesBaseName = "owm-japis"
-version = "2.5.2.1"
+version = "2.5.2.2"
 
 repositories {
   mavenCentral()
@@ -39,11 +39,11 @@ dependencies {
 
   compile "com.google.code.gson:gson:2.8.2"
 
-  compile "com.squareup.retrofit2:retrofit:2.3.0"
-  compile "com.squareup.retrofit2:converter-gson:2.3.0"
+  compile "com.squareup.retrofit2:retrofit:2.4.0"
+  compile "com.squareup.retrofit2:converter-gson:2.4.0"
 
   compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 task javadocJar(type: Jar) {
@@ -60,7 +60,7 @@ task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
   outputFormat = "javadoc"
   outputDirectory = "$rootDir/docs"
 
-  jdkVersion = 7
+  jdkVersion = 8
   impliedPlatforms = ["JVM"]
 }
 
@@ -140,8 +140,8 @@ uploadArchives {
 }
 
 buildscript {
-  ext.kotlin_version = "1.1.51"
-  ext.dokka_version = "0.9.15"
+  ext.kotlin_version = "1.2.30"
+  ext.dokka_version = "0.9.16"
 
   repositories {
     jcenter()
