@@ -1,5 +1,5 @@
 /**************************************************************************************************
- * Copyright (c) 2013-2017 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
+ * Copyright (c) 2013-2018 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
  *                                                                                                *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this           *
  * software and associated documentation files (the "Software"), to deal in the Software without  *
@@ -27,9 +27,6 @@ import net.aksingh.owmjapis.util.SystemTools
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.net.InetSocketAddress
-import java.net.Proxy
-import java.util.*
 
 
 /**

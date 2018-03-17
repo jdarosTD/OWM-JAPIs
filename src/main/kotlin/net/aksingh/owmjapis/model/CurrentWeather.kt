@@ -1,5 +1,5 @@
 /**************************************************************************************************
- * Copyright (c) 2013-2017 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
+ * Copyright (c) 2013-2018 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
  *                                                                                                *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this           *
  * software and associated documentation files (the "Software"), to deal in the Software without  *
@@ -22,7 +22,6 @@ package net.aksingh.owmjapis.model
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import net.aksingh.owmjapis.model.param.*
-import java.util.*
 
 data class CurrentWeather(
   @field:SerializedName("dt")
