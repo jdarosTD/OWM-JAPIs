@@ -34,7 +34,7 @@ data class ForecastData(
   val pressure: Double? = null,
 
   @field:SerializedName("humidity")
-  val humidity: Int? = null,
+  val humidity: Double? = null,
 
   @field:SerializedName("weather")
   val weatherList: List<Weather?>? = null,
@@ -46,13 +46,13 @@ data class ForecastData(
   val degree: Double? = null,
 
   @field:SerializedName("clouds")
-  val cloud: Int? = null,
+  val cloud: Double? = null,
 
   @field:SerializedName("rain")
   val rain: Double? = null,
 
   @field:SerializedName("snow")
-  val snow: Int? = null
+  val snow: Double? = null
 ) {
 
   var dateTime: Date? = null

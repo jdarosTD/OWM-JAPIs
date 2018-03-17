@@ -24,7 +24,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Cloud(
   @field:SerializedName("all")
-  val cloud: Int? = null
+  val cloud: Double? = null
 ) {
 
   fun hasCloud(): Boolean = cloud != null

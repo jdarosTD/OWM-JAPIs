@@ -24,7 +24,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Snow(
   @field:SerializedName("3h")
-  val snowVol3h: Int? = null
+  val snowVol3h: Double? = null
 ) {
 
   fun hasSnowVol3h(): Boolean = snowVol3h != null

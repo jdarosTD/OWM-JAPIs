@@ -42,7 +42,7 @@ data class Main(
   val groundLevel: Double? = null,
 
   @field:SerializedName("humidity")
-  val humidity: Int? = null,
+  val humidity: Double? = null,
 
   @field:SerializedName("temp_kf")
   val tempKf: Double? = null

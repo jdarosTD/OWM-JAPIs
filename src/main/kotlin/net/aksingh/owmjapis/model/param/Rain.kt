@@ -24,7 +24,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Rain(
   @field:SerializedName("3h")
-  val precipVol3h: Int? = null
+  val precipVol3h: Double? = null
 ) {
 
   fun hasPrecipVol3h(): Boolean = precipVol3h != null

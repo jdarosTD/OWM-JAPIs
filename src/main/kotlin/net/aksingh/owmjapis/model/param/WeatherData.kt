@@ -37,7 +37,7 @@ data class WeatherData(
   val pressure: Double? = null,
 
   @field:SerializedName("humidity")
-  val humidity: Int? = null,
+  val humidity: Double? = null,
 
   @field:SerializedName("weather")
   val weatherList: List<Weather?>? = null,
