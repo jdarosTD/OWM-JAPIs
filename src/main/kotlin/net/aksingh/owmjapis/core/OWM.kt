@@ -46,7 +46,7 @@ import java.util.*
  * [OpenWeatherMap.org APIs](https://openweathermap.org/api/)
  *
  * @author Ashutosh Kumar Singh
- * @version 2018-03-17
+ * @version 2018-09-25
  *
  * @since 2.5.1.0
  */
@@ -229,7 +229,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun currentWeatherByCityName(cityName: String, countryCode: OWM.Country): CurrentWeather {
-    return currentWeatherByCityName(cityName + "," + countryCode)
+    return currentWeatherByCityName(cityName + "," + countryCode.value)
   }
 
   @Throws(APIException::class)
@@ -279,7 +279,7 @@ class OWM {
   fun currentWeatherByZipCode(zipCode: Int, countryCode: OWM.Country): CurrentWeather {
     val api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
-    val apiCall = api.getCurrentWeatherByZipCode(zipCode.toString() + "," + countryCode)
+    val apiCall = api.getCurrentWeatherByZipCode(zipCode.toString() + "," + countryCode.value)
     val apiResp = apiCall.execute()
     var weather = apiResp.body()
 
@@ -315,7 +315,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun hourlyWeatherForecastByCityName(cityName: String, countryCode: OWM.Country): HourlyWeatherForecast {
-    return hourlyWeatherForecastByCityName(cityName + "," + countryCode)
+    return hourlyWeatherForecastByCityName(cityName + "," + countryCode.value)
   }
 
   @Throws(APIException::class)
@@ -365,7 +365,7 @@ class OWM {
   fun hourlyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country): HourlyWeatherForecast {
     val api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getHourlyWeatherForecastByZipCode(zipCode.toString() + "," + countryCode)
+    val apiCall = api.getHourlyWeatherForecastByZipCode(zipCode.toString() + "," + countryCode.value)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -411,7 +411,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByCityName(cityName: String, countryCode: OWM.Country, count: Int): DailyWeatherForecast {
-    return dailyWeatherForecastByCityName(cityName + "," + countryCode, count)
+    return dailyWeatherForecastByCityName(cityName + "," + countryCode.value, count)
   }
 
   @Throws(APIException::class)
@@ -481,7 +481,7 @@ class OWM {
   fun dailyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country, count: Int): DailyWeatherForecast {
     val api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getDailyWeatherForecastByZipCode(zipCode.toString() + "," + countryCode, count)
+    val apiCall = api.getDailyWeatherForecastByZipCode(zipCode.toString() + "," + countryCode.value, count)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -608,8 +608,6 @@ class OWM {
     OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
     OkHttpTools.addQueryParameter(clientBuilder, "type", accuracy.value)
     OkHttpTools.addQueryParameter(clientBuilder, "lang", language.value)
-
-
 
     if (unit != OWM.Unit.STANDARD) {
       OkHttpTools.addQueryParameter(clientBuilder, "units", unit.value)
