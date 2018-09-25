@@ -34,6 +34,13 @@ No? Not an issue. You can download the releases (source and binaries) from [OWM 
 ###2.5 (Compatible with OpenWeatherMap.org's API v2.5)
 
 
+####2.5.2.3
+
+**Minor version**
+
+1. Fixed all reported bugs
+
+
 ####2.5.2.2
 
 **Minor version**
@@ -88,7 +95,7 @@ Is it hard to understand the English of programming? Well, you are not the only 
 ### Basic Example
 ####Sample Code
 
-    import net.aksingh.owmjapis.core.OpenWeatherMap;
+    import net.aksingh.owmjapis.core.OWM;
     import net.aksingh.owmjapis.api.APIException;
     import net.aksingh.owmjapis.model.CurrentWeather;
     
@@ -127,7 +134,7 @@ Using OWM JAPIs, you can always check if a particular data is available or not. 
 
 ####Sample Code
 
-    import net.aksingh.owmjapis.core.OpenWeatherMap;
+    import net.aksingh.owmjapis.core.OWM;
     import net.aksingh.owmjapis.api.APIException;
     import net.aksingh.owmjapis.model.CurrentWeather;
     
