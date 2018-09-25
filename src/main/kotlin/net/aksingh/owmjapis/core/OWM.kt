@@ -34,13 +34,13 @@ import java.util.*
 /**
  * **Starting point for this lib.** If you're new to this API, start from this class.
  *
- * Lets you access data from OpenWeatherMap.org using its Weather APIs.
+ * Lets you access data from OpenWeatherMap.org using its Weather APIs (Free).
  *
  * **Sample code in Java:**
- * `OWM owm = new OWM("your-api-key");`
+ * `OWM owm = new OWM("your-free-api-key");`
  *
  * **Sample code in Kotlin:**
- * `val owm: OWM = OWM("your-api-key")`
+ * `val owm: OWM = OWM("your-free-api-key")`
  *
  * [OpenWeatherMap.org](https://openweathermap.org/)
  * [OpenWeatherMap.org APIs](https://openweathermap.org/api/)
@@ -50,13 +50,21 @@ import java.util.*
  *
  * @since 2.5.1.0
  */
-class OWM {
+open class OWM {
 
-  private val OWM_DATA_V25_BASE_URL: String = "https://api.openweathermap.org/data/2.5/"
-  private val OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT: Int = 16
-  private val OWM_DATA_V25_HISTORICAL_UV_INDEX_MAX_COUNT: Int = 5
+  companion object {
+    private val OWM_FREE_V25_BASE_URL: String = "https://api.openweathermap.org/data/2.5/"
+    private val OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT: Int = 16
+    private val OWM_FREE_V25_HISTORICAL_UV_INDEX_MAX_COUNT: Int = 5
 
-  private val OWM_POLLUTION_V10_BASE_URL: String = "https://api.openweathermap.org/pollution/v1/"
+    private val OWM_FREE_POLLUTION_V10_BASE_URL: String = "https://api.openweathermap.org/pollution/v1/"
+  }
+
+  protected var retrofit4others: Retrofit
+  protected var retrofit4pollution: Retrofit
+  protected var retrofit4weather: Retrofit
+
+  protected var baseUrl: String = OWM_FREE_V25_BASE_URL
 
   var accuracy: OWM.Accuracy = OWM.Accuracy.LIKE
     set(value) {
@@ -67,7 +75,7 @@ class OWM {
   var apiKey: String
     set(value) {
       if (value.isEmpty() || value.isBlank()) {
-        throw IllegalArgumentException("API key can't be empty/blank. Kindly get an API key from OpenWeatherMap.org")
+        throw IllegalArgumentException("API key can't be empty. Get a free API key from OpenWeatherMap.org.")
       }
 
       field = value
@@ -93,10 +101,6 @@ class OWM {
       retrofit4weather = createRetrofit4WeatherInstance(proxy)
     }
 
-  private var retrofit4others: Retrofit
-  private var retrofit4pollution: Retrofit
-  private var retrofit4weather: Retrofit
-
   /**
    * Constructor
    *
@@ -107,10 +111,13 @@ class OWM {
    *
    * [OpenWeatherMap.org API key](https://openweathermap.org/appid)
    *
-   * @param apiKey API key from OpenWeatherMap.org
+   * @param apiKey API key (free) from OpenWeatherMap.org
    */
-  constructor(apiKey: String) {
+  constructor(apiKey: String) : this(apiKey, OWM_FREE_V25_BASE_URL)
+
+  protected constructor(apiKey: String, baseUrl: String) {
     this.apiKey = apiKey
+    this.baseUrl = baseUrl
 
     retrofit4weather = createRetrofit4WeatherInstance(proxy)
     retrofit4pollution = createRetrofit4PollutionInstance(proxy)
@@ -382,7 +389,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByCityName(cityName: String): DailyWeatherForecast {
-    return dailyWeatherForecastByCityName(cityName, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
+    return dailyWeatherForecastByCityName(cityName, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
@@ -406,7 +413,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByCityName(cityName: String, countryCode: OWM.Country): DailyWeatherForecast {
-    return dailyWeatherForecastByCityName(cityName, countryCode, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
+    return dailyWeatherForecastByCityName(cityName, countryCode, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
@@ -416,7 +423,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByCityId(cityId: Int): DailyWeatherForecast {
-    return dailyWeatherForecastByCityId(cityId, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
+    return dailyWeatherForecastByCityId(cityId, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
@@ -440,7 +447,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByCoords(latitude: Double, longitude: Double): DailyWeatherForecast {
-    return dailyWeatherForecastByCoords(latitude, longitude, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
+    return dailyWeatherForecastByCoords(latitude, longitude, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
@@ -464,7 +471,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByZipCode(zipCode: Int): DailyWeatherForecast {
-    return dailyWeatherForecastByZipCode(zipCode, OWM.Country.UNITED_STATES, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
+    return dailyWeatherForecastByZipCode(zipCode, OWM.Country.UNITED_STATES, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
@@ -474,7 +481,7 @@ class OWM {
 
   @Throws(APIException::class)
   fun dailyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country): DailyWeatherForecast {
-    return dailyWeatherForecastByZipCode(zipCode, countryCode, OWM_DATA_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
+    return dailyWeatherForecastByZipCode(zipCode, countryCode, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
   }
 
   @Throws(APIException::class)
@@ -560,12 +567,12 @@ class OWM {
 
   @Throws(APIException::class)
   fun historicalUVIndexByCoords(latitude: Double, longitude: Double, startTime: Long, endTime: Long): List<HistoricalUVIndex> {
-    return historicalUVIndexByCoords(latitude, longitude, OWM_DATA_V25_HISTORICAL_UV_INDEX_MAX_COUNT, startTime, endTime)
+    return historicalUVIndexByCoords(latitude, longitude, OWM_FREE_V25_HISTORICAL_UV_INDEX_MAX_COUNT, startTime, endTime)
   }
 
   @Throws(APIException::class)
   fun historicalUVIndexByCoords(latitude: Double, longitude: Double, startTime: Date, endTime: Date): List<HistoricalUVIndex> {
-    return historicalUVIndexByCoords(latitude, longitude, OWM_DATA_V25_HISTORICAL_UV_INDEX_MAX_COUNT, startTime.time / 1000, endTime.time / 1000)
+    return historicalUVIndexByCoords(latitude, longitude, OWM_FREE_V25_HISTORICAL_UV_INDEX_MAX_COUNT, startTime.time / 1000, endTime.time / 1000)
   }
 
   @Throws(APIException::class)
@@ -602,7 +609,7 @@ class OWM {
    *
    * @param proxy Proxy
    */
-  private fun createRetrofit4WeatherInstance(proxy: Proxy): Retrofit {
+  protected fun createRetrofit4WeatherInstance(proxy: Proxy): Retrofit {
     val clientBuilder = OkHttpClient.Builder().proxy(proxy)
 
     OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
@@ -618,7 +625,7 @@ class OWM {
 
     val builder = Retrofit.Builder()
       .client(client)
-      .baseUrl(OWM_DATA_V25_BASE_URL)
+      .baseUrl(baseUrl)
       .addConverterFactory(GsonConverterFactory.create(gson))
 
     return builder.build()
@@ -629,7 +636,7 @@ class OWM {
    *
    * @param proxy Proxy
    */
-  private fun createRetrofit4PollutionInstance(proxy: Proxy): Retrofit {
+  protected fun createRetrofit4PollutionInstance(proxy: Proxy): Retrofit {
     val clientBuilder = OkHttpClient.Builder().proxy(proxy)
 
     OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
@@ -639,7 +646,7 @@ class OWM {
 
     val builder = Retrofit.Builder()
       .client(client)
-      .baseUrl(OWM_POLLUTION_V10_BASE_URL)
+      .baseUrl(OWM_FREE_POLLUTION_V10_BASE_URL)
       .addConverterFactory(GsonConverterFactory.create(gson))
 
     return builder.build()
@@ -650,7 +657,7 @@ class OWM {
    *
    * @param proxy Proxy
    */
-  private fun createRetrofit4OthersInstance(proxy: Proxy): Retrofit {
+  protected fun createRetrofit4OthersInstance(proxy: Proxy): Retrofit {
     val clientBuilder = OkHttpClient.Builder().proxy(proxy)
 
     OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
@@ -660,7 +667,7 @@ class OWM {
 
     val builder = Retrofit.Builder()
       .client(client)
-      .baseUrl(OWM_DATA_V25_BASE_URL)
+      .baseUrl(baseUrl)
       .addConverterFactory(GsonConverterFactory.create(gson))
 
     return builder.build()
