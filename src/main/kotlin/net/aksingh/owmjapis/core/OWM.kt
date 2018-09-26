@@ -54,7 +54,6 @@ open class OWM {
 
   companion object {
     private val OWM_FREE_V25_BASE_URL: String = "https://api.openweathermap.org/data/2.5/"
-    private val OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT: Int = 16
     private val OWM_FREE_V25_HISTORICAL_UV_INDEX_MAX_COUNT: Int = 5
 
     private val OWM_FREE_POLLUTION_V10_BASE_URL: String = "https://api.openweathermap.org/pollution/v1/"
@@ -382,122 +381,6 @@ open class OWM {
       }
 
       forecast = HourlyWeatherForecast()
-    }
-
-    return forecast
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByCityName(cityName: String): DailyWeatherForecast {
-    return dailyWeatherForecastByCityName(cityName, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByCityName(cityName: String, count: Int): DailyWeatherForecast {
-    val api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
-
-    val apiCall = api.getDailyWeatherForecastByCityName(cityName, count)
-    val apiResp = apiCall.execute()
-    var forecast = apiResp.body()
-
-    if (forecast == null) {
-      if (!apiResp.isSuccessful) {
-        throw APIException(apiResp.code(), apiResp.message())
-      }
-
-      forecast = DailyWeatherForecast()
-    }
-
-    return forecast
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByCityName(cityName: String, countryCode: OWM.Country): DailyWeatherForecast {
-    return dailyWeatherForecastByCityName(cityName, countryCode, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByCityName(cityName: String, countryCode: OWM.Country, count: Int): DailyWeatherForecast {
-    return dailyWeatherForecastByCityName(cityName + "," + countryCode.value, count)
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByCityId(cityId: Int): DailyWeatherForecast {
-    return dailyWeatherForecastByCityId(cityId, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByCityId(cityId: Int, count: Int): DailyWeatherForecast {
-    val api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
-
-    val apiCall = api.getDailyWeatherForecastByCityId(cityId, count)
-    val apiResp = apiCall.execute()
-    var forecast = apiResp.body()
-
-    if (forecast == null) {
-      if (!apiResp.isSuccessful) {
-        throw APIException(apiResp.code(), apiResp.message())
-      }
-
-      forecast = DailyWeatherForecast()
-    }
-
-    return forecast
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByCoords(latitude: Double, longitude: Double): DailyWeatherForecast {
-    return dailyWeatherForecastByCoords(latitude, longitude, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByCoords(latitude: Double, longitude: Double, count: Int): DailyWeatherForecast {
-    val api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
-
-    val apiCall = api.getDailyWeatherForecastByCoords(latitude, longitude, count)
-    val apiResp = apiCall.execute()
-    var forecast = apiResp.body()
-
-    if (forecast == null) {
-      if (!apiResp.isSuccessful) {
-        throw APIException(apiResp.code(), apiResp.message())
-      }
-
-      forecast = DailyWeatherForecast()
-    }
-
-    return forecast
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByZipCode(zipCode: Int): DailyWeatherForecast {
-    return dailyWeatherForecastByZipCode(zipCode, OWM.Country.UNITED_STATES, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByZipCode(zipCode: Int, count: Int): DailyWeatherForecast {
-    return dailyWeatherForecastByZipCode(zipCode, OWM.Country.UNITED_STATES, count)
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country): DailyWeatherForecast {
-    return dailyWeatherForecastByZipCode(zipCode, countryCode, OWM_FREE_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
-  }
-
-  @Throws(APIException::class)
-  fun dailyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country, count: Int): DailyWeatherForecast {
-    val api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
-
-    val apiCall = api.getDailyWeatherForecastByZipCode(zipCode.toString() + "," + countryCode.value, count)
-    val apiResp = apiCall.execute()
-    var forecast = apiResp.body()
-
-    if (forecast == null) {
-      if (!apiResp.isSuccessful) {
-        throw APIException(apiResp.code(), apiResp.message())
-      }
-
-      forecast = DailyWeatherForecast()
     }
 
     return forecast
