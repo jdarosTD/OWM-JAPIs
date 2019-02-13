@@ -1,5 +1,5 @@
 /**************************************************************************************************
- * Copyright (c) 2013-2018 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
+ * Copyright (c) 2013-2019 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
  *                                                                                                *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this           *
  * software and associated documentation files (the "Software"), to deal in the Software without  *
@@ -20,8 +20,13 @@
 package net.aksingh.owmjapis.core
 
 import net.aksingh.owmjapis.api.APIException
+import net.aksingh.owmjapis.api.AccumulatedWeatherAPI
 import net.aksingh.owmjapis.api.DailyWeatherForecastAPI
+import net.aksingh.owmjapis.api.HistoricalWeatherAPI
+import net.aksingh.owmjapis.model.AccumulatedWeatherList
 import net.aksingh.owmjapis.model.DailyWeatherForecast
+import net.aksingh.owmjapis.model.HistoricalWeatherList
+import java.util.*
 
 /**
  * **Starting point for this lib.** If you're new to this API, start from this class.
@@ -47,6 +52,9 @@ class OWMPro : OWM {
   companion object {
     private val OWM_PRO_V25_BASE_URL: String = "https://pro.openweathermap.org/data/2.5/"
     private val OWM_PRO_V25_DAILY_WEATHER_FORECAST_MAX_COUNT: Int = 16
+    private val OWM_PRO_V25_HISTORICAL_WEATHER_DEFAULT_COUNT: Int = 1
+
+    internal val OWM_PRO_V25_HISTORY_URL: String = "https://history.openweathermap.org/data/2.5/history/"
   }
 
   /**
@@ -64,15 +72,174 @@ class OWMPro : OWM {
   constructor(apiKey: String) : super(apiKey, OWM_PRO_V25_BASE_URL)
 
   @Throws(APIException::class)
-  fun dailyWeatherForecastByCityName(cityName: String): DailyWeatherForecast {
-    return dailyWeatherForecastByCityName(cityName, OWM_PRO_V25_DAILY_WEATHER_FORECAST_MAX_COUNT)
+  fun accumulatedPrecipitationByCityId(cityId: Int, startTime: Long, endTime: Long): AccumulatedWeatherList {
+    val api = retrofit4history.create(AccumulatedWeatherAPI::class.java)
+
+    val apiCall = api.getAccumulatedPrecipByCityId(cityId, startTime, endTime)
+    val apiResp = apiCall.execute()
+    var accumulatedPrecip = apiResp.body()
+
+    if (accumulatedPrecip == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      accumulatedPrecip = AccumulatedWeatherList()
+    }
+
+    return accumulatedPrecip
   }
 
   @Throws(APIException::class)
-  fun dailyWeatherForecastByCityName(cityName: String, count: Int): DailyWeatherForecast {
+  fun accumulatedPrecipitationByCityId(cityId: Int, startTime: Date, endTime: Date): AccumulatedWeatherList {
+    return accumulatedPrecipitationByCityId(cityId, startTime.time / 1000, endTime.time / 1000)
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedPrecipitationByCityName(cityNameWithCountryCode: String, startTime: Long, endTime: Long): AccumulatedWeatherList {
+    val api = retrofit4history.create(AccumulatedWeatherAPI::class.java)
+
+    val apiCall = api.getAccumulatedPrecipByCityName(cityNameWithCountryCode, startTime, endTime)
+    val apiResp = apiCall.execute()
+    var accumulatedPrecip = apiResp.body()
+
+    if (accumulatedPrecip == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      accumulatedPrecip = AccumulatedWeatherList()
+    }
+
+    return accumulatedPrecip
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedPrecipitationByCityName(cityNameWithCountryCode: String, startTime: Date, endTime: Date): AccumulatedWeatherList {
+    return accumulatedPrecipitationByCityName(cityNameWithCountryCode, startTime.time / 1000, endTime.time / 1000)
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedPrecipitationByCityName(cityName: String, countryCode: OWM.Country, startTime: Long, endTime: Long): AccumulatedWeatherList {
+    return accumulatedPrecipitationByCityName(cityName + "," + countryCode.value, startTime, endTime)
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedPrecipitationByCityName(cityName: String, countryCode: OWM.Country, startTime: Date, endTime: Date): AccumulatedWeatherList {
+    return accumulatedPrecipitationByCityName(cityName + "," + countryCode.value, startTime.time / 1000, endTime.time / 1000)
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedPrecipitationByCoords(latitude: Double, longitude: Double, startTime: Long, endTime: Long): AccumulatedWeatherList {
+    val api = retrofit4history.create(AccumulatedWeatherAPI::class.java)
+
+    val apiCall = api.getAccumulatedPrecipByCoords(latitude, longitude, startTime, endTime)
+    val apiResp = apiCall.execute()
+    var accumulatedPrecip = apiResp.body()
+
+    if (accumulatedPrecip == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      accumulatedPrecip = AccumulatedWeatherList()
+    }
+
+    return accumulatedPrecip
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedPrecipitationByCoords(latitude: Double, longitude: Double, startTime: Date, endTime: Date): AccumulatedWeatherList {
+    return accumulatedPrecipitationByCoords(latitude, longitude, startTime.time / 1000, endTime.time / 1000)
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedTemperatureByCityId(cityId: Int, startTime: Long, endTime: Long, threshold: Int): AccumulatedWeatherList {
+    val api = retrofit4history.create(AccumulatedWeatherAPI::class.java)
+
+    val apiCall = api.getAccumulatedTempByCityId(cityId, startTime, endTime, threshold)
+    val apiResp = apiCall.execute()
+    var accumulatedTemp = apiResp.body()
+
+    if (accumulatedTemp == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      accumulatedTemp = AccumulatedWeatherList()
+    }
+
+    return accumulatedTemp
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedTemperatureByCityId(cityId: Int, startTime: Date, endTime: Date, threshold: Int): AccumulatedWeatherList {
+    return accumulatedTemperatureByCityId(cityId, startTime.time / 1000, endTime.time / 1000, threshold)
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedTemperatureByCityName(cityNameWithCountryCode: String, startTime: Long, endTime: Long, threshold: Int): AccumulatedWeatherList {
+    val api = retrofit4history.create(AccumulatedWeatherAPI::class.java)
+
+    val apiCall = api.getAccumulatedTempByCityName(cityNameWithCountryCode, startTime, endTime, threshold)
+    val apiResp = apiCall.execute()
+    var accumulatedTemp = apiResp.body()
+
+    if (accumulatedTemp == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      accumulatedTemp = AccumulatedWeatherList()
+    }
+
+    return accumulatedTemp
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedTemperatureByCityName(cityNameWithCountryCode: String, startTime: Date, endTime: Date, threshold: Int): AccumulatedWeatherList {
+    return accumulatedTemperatureByCityName(cityNameWithCountryCode, startTime.time / 1000, endTime.time / 1000, threshold)
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedTemperatureByCityName(cityName: String, countryCode: OWM.Country, startTime: Long, endTime: Long, threshold: Int): AccumulatedWeatherList {
+    return accumulatedTemperatureByCityName(cityName + "," + countryCode.value, startTime, endTime, threshold)
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedTemperatureByCityName(cityName: String, countryCode: OWM.Country, startTime: Date, endTime: Date, threshold: Int): AccumulatedWeatherList {
+    return accumulatedTemperatureByCityName(cityName + "," + countryCode.value, startTime.time / 1000, endTime.time / 1000, threshold)
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedTemperatureByCoords(latitude: Double, longitude: Double, startTime: Long, endTime: Long, threshold: Int): AccumulatedWeatherList {
+    val api = retrofit4history.create(AccumulatedWeatherAPI::class.java)
+
+    val apiCall = api.getAccumulatedTempByCoords(latitude, longitude, startTime, endTime, threshold)
+    val apiResp = apiCall.execute()
+    var accumulatedTemp = apiResp.body()
+
+    if (accumulatedTemp == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      accumulatedTemp = AccumulatedWeatherList()
+    }
+
+    return accumulatedTemp
+  }
+
+  @Throws(APIException::class)
+  fun accumulatedTemperatureByCoords(latitude: Double, longitude: Double, startTime: Date, endTime: Date, threshold: Int): AccumulatedWeatherList {
+    return accumulatedTemperatureByCoords(latitude, longitude, startTime.time / 1000, endTime.time / 1000, threshold)
+  }
+
+  @Throws(APIException::class)
+  fun dailyWeatherForecastByCityName(cityNameWithCountryCode: String, count: Int): DailyWeatherForecast {
     val api = retrofit4weather.create(DailyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getDailyWeatherForecastByCityName(cityName, count)
+    val apiCall = api.getDailyWeatherForecastByCityName(cityNameWithCountryCode, count)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -177,5 +344,127 @@ class OWMPro : OWM {
     }
 
     return forecast
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityId(cityId: Int, type: String, startTime: Long, endTime: Long, count: Int): HistoricalWeatherList {
+    val api = retrofit4history.create(HistoricalWeatherAPI::class.java)
+
+    val apiCall = api.getHistoricalWeatherByCityId(cityId, type, startTime, endTime, count)
+    val apiResp = apiCall.execute()
+    var historicalWeather = apiResp.body()
+
+    if (historicalWeather == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      historicalWeather = HistoricalWeatherList()
+    }
+
+    return historicalWeather
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityId(cityId: Int, type: String, startTime: Date, endTime: Date, count: Int): HistoricalWeatherList {
+    return historicalWeatherByCityId(cityId, type, startTime.time / 1000, endTime.time / 1000, count)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityId(cityId: Int, type: String, startTime: Long, endTime: Long): HistoricalWeatherList {
+    return historicalWeatherByCityId(cityId, type, startTime, endTime, OWM_PRO_V25_HISTORICAL_WEATHER_DEFAULT_COUNT)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityId(cityId: Int, type: String, startTime: Date, endTime: Date): HistoricalWeatherList {
+    return historicalWeatherByCityId(cityId, type, startTime.time / 1000, endTime.time / 1000, OWM_PRO_V25_HISTORICAL_WEATHER_DEFAULT_COUNT)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityName(cityNameWithCountryCode: String, type: String, startTime: Long, endTime: Long, count: Int): HistoricalWeatherList {
+    val api = retrofit4history.create(HistoricalWeatherAPI::class.java)
+
+    val apiCall = api.getHistoricalWeatherByCityName(cityNameWithCountryCode, type, startTime, endTime, count)
+    val apiResp = apiCall.execute()
+    var historicalWeather = apiResp.body()
+
+    if (historicalWeather == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      historicalWeather = HistoricalWeatherList()
+    }
+
+    return historicalWeather
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityName(cityNameWithCountryCode: String, type: String, startTime: Date, endTime: Date, count: Int): HistoricalWeatherList {
+    return historicalWeatherByCityName(cityNameWithCountryCode, type, startTime.time / 1000, endTime.time / 1000, count)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityName(cityNameWithCountryCode: String, type: String, startTime: Long, endTime: Long): HistoricalWeatherList {
+    return historicalWeatherByCityName(cityNameWithCountryCode, type, startTime, endTime, OWM_PRO_V25_HISTORICAL_WEATHER_DEFAULT_COUNT)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityName(cityNameWithCountryCode: String, type: String, startTime: Date, endTime: Date): HistoricalWeatherList {
+    return historicalWeatherByCityName(cityNameWithCountryCode, type, startTime.time / 1000, endTime.time / 1000, OWM_PRO_V25_HISTORICAL_WEATHER_DEFAULT_COUNT)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityName(cityName: String, countryCode: OWM.Country, type: String, startTime: Long, endTime: Long, count: Int): HistoricalWeatherList {
+    return historicalWeatherByCityName(cityName + "," + countryCode.value, type, startTime, endTime, count)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityName(cityName: String, countryCode: OWM.Country, type: String, startTime: Date, endTime: Date, count: Int): HistoricalWeatherList {
+    return historicalWeatherByCityName(cityName + "," + countryCode.value, type, startTime.time / 1000, endTime.time / 1000, count)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityName(cityName: String, countryCode: OWM.Country, type: String, startTime: Long, endTime: Long): HistoricalWeatherList {
+    return historicalWeatherByCityName(cityName + "," + countryCode.value, type, startTime, endTime, OWM_PRO_V25_HISTORICAL_WEATHER_DEFAULT_COUNT)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCityName(cityName: String, countryCode: OWM.Country, type: String, startTime: Date, endTime: Date): HistoricalWeatherList {
+    return historicalWeatherByCityName(cityName + "," + countryCode.value, type, startTime.time / 1000, endTime.time / 1000, OWM_PRO_V25_HISTORICAL_WEATHER_DEFAULT_COUNT)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCoords(latitude: Double, longitude: Double, type: String, startTime: Long, endTime: Long, count: Int): HistoricalWeatherList {
+    val api = retrofit4history.create(HistoricalWeatherAPI::class.java)
+
+    val apiCall = api.getHistoricalWeatherByCoords(latitude, longitude, type, startTime, endTime, count)
+    val apiResp = apiCall.execute()
+    var historicalWeather = apiResp.body()
+
+    if (historicalWeather == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      historicalWeather = HistoricalWeatherList()
+    }
+
+    return historicalWeather
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCoords(latitude: Double, longitude: Double, type: String, startTime: Date, endTime: Date, count: Int): HistoricalWeatherList {
+    return historicalWeatherByCoords(latitude, longitude, type, startTime.time / 1000, endTime.time / 1000, count)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCoords(latitude: Double, longitude: Double, type: String, startTime: Long, endTime: Long): HistoricalWeatherList {
+    return historicalWeatherByCoords(latitude, longitude, type, startTime, endTime, OWM_PRO_V25_HISTORICAL_WEATHER_DEFAULT_COUNT)
+  }
+
+  @Throws(APIException::class)
+  fun historicalWeatherByCoords(latitude: Double, longitude: Double, type: String, startTime: Date, endTime: Date): HistoricalWeatherList {
+    return historicalWeatherByCoords(latitude, longitude, type, startTime.time / 1000, endTime.time / 1000, OWM_PRO_V25_HISTORICAL_WEATHER_DEFAULT_COUNT)
   }
 }

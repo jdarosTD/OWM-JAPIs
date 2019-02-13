@@ -1,5 +1,5 @@
 /**************************************************************************************************
- * Copyright (c) 2013-2018 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
+ * Copyright (c) 2013-2019 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
  *                                                                                                *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this           *
  * software and associated documentation files (the "Software"), to deal in the Software without  *
@@ -45,19 +45,19 @@ import net.aksingh.owmjapis.model.param.WeatherData
  */
 data class HourlyWeatherForecast(
   @field:SerializedName("cod")
-  var respCode: String? = null,
+  val respCode: String? = null,
 
   @field:SerializedName("message")
-  var message: Double? = null,
+  val message: Double? = null,
 
   @field:SerializedName("city")
-  var cityData: City? = null,
+  val cityData: City? = null,
 
   @field:SerializedName("cnt")
-  var dataCount: Int? = null,
+  val dataCount: Int? = null,
 
   @field:SerializedName("list")
-  var dataList: List<WeatherData?>? = null
+  val dataList: List<WeatherData?>? = null
 ) {
 
   fun hasRespCode(): Boolean = respCode != null

@@ -1,5 +1,5 @@
 /**************************************************************************************************
- * Copyright (c) 2013-2018 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
+ * Copyright (c) 2013-2019 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
  *                                                                                                *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this           *
  * software and associated documentation files (the "Software"), to deal in the Software without  *
@@ -24,16 +24,16 @@ import com.google.gson.annotations.SerializedName
 
 data class CurrentWeatherList(
   @field:SerializedName("cod")
-  var respCode: String? = null,
+  val respCode: String? = null,
 
   @field:SerializedName("calctime")
-  var calcTime: Double? = null,
+  val calcTime: Double? = null,
 
   @field:SerializedName("cnt")
-  var dataCount: Short? = null,
+  val dataCount: Short? = null,
 
   @field:SerializedName("list")
-  var dataList: List<CurrentWeather>? = null
+  val dataList: List<CurrentWeather>? = null
 ) {
   fun hasRespCode(): Boolean = respCode != null
 

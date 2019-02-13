@@ -1,5 +1,5 @@
 /**************************************************************************************************
- * Copyright (c) 2013-2018 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
+ * Copyright (c) 2013-2019 Ashutosh Kumar Singh <ashutosh@aksingh.net>                            *
  *                                                                                                *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this           *
  * software and associated documentation files (the "Software"), to deal in the Software without  *
@@ -59,6 +59,7 @@ open class OWM {
     private val OWM_FREE_POLLUTION_V10_BASE_URL: String = "https://api.openweathermap.org/pollution/v1/"
   }
 
+  protected var retrofit4history: Retrofit
   protected var retrofit4others: Retrofit
   protected var retrofit4pollution: Retrofit
   protected var retrofit4weather: Retrofit
@@ -118,6 +119,7 @@ open class OWM {
     this.apiKey = apiKey
     this.baseUrl = baseUrl
 
+    retrofit4history = createRetrofit4HistoryInstance(proxy)
     retrofit4weather = createRetrofit4WeatherInstance(proxy)
     retrofit4pollution = createRetrofit4PollutionInstance(proxy)
     retrofit4others = createRetrofit4OthersInstance(proxy)
@@ -211,10 +213,10 @@ open class OWM {
   }
 
   @Throws(APIException::class)
-  fun currentWeatherByCityName(cityName: String): CurrentWeather {
+  fun currentWeatherByCityName(cityNameWithCountryCode: String): CurrentWeather {
     val api = retrofit4weather.create(CurrentWeatherAPI::class.java)
 
-    val apiCall = api.getCurrentWeatherByCityName(cityName)
+    val apiCall = api.getCurrentWeatherByCityName(cityNameWithCountryCode)
 
 
     val apiResp = apiCall.execute()
@@ -301,10 +303,10 @@ open class OWM {
   }
 
   @Throws(APIException::class)
-  fun hourlyWeatherForecastByCityName(cityName: String): HourlyWeatherForecast {
+  fun hourlyWeatherForecastByCityName(cityNameWithCountryCode: String): HourlyWeatherForecast {
     val api = retrofit4weather.create(HourlyWeatherForecastAPI::class.java)
 
-    val apiCall = api.getHourlyWeatherForecastByCityName(cityName)
+    val apiCall = api.getHourlyWeatherForecastByCityName(cityNameWithCountryCode)
     val apiResp = apiCall.execute()
     var forecast = apiResp.body()
 
@@ -485,6 +487,27 @@ open class OWM {
   @Throws(APIException::class)
   fun currentAirPollutionByCoords(latitude: Double, longitude: Double): AirPollution {
     return airPollutionByCoords(latitude, longitude, "current")
+  }
+
+  /**
+   * Init Retrofit for getting history data from OpenWeatherMap.org
+   *
+   * @param proxy Proxy
+   */
+  protected fun createRetrofit4HistoryInstance(proxy: Proxy): Retrofit {
+    val clientBuilder = OkHttpClient.Builder().proxy(proxy)
+
+    OkHttpTools.addQueryParameter(clientBuilder, "appid", apiKey)
+
+    val client = clientBuilder.build()
+    val gson = GsonBuilder().setLenient().create()
+
+    val builder = Retrofit.Builder()
+      .client(client)
+      .baseUrl(OWMPro.OWM_PRO_V25_HISTORY_URL)
+      .addConverterFactory(GsonConverterFactory.create(gson))
+
+    return builder.build()
   }
 
   /**
