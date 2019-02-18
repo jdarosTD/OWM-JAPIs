@@ -69,6 +69,7 @@ open class OWM {
   var accuracy: OWM.Accuracy = OWM.Accuracy.LIKE
     set(value) {
       field = value
+
       retrofit4weather = createRetrofit4WeatherInstance(proxy)
     }
 
@@ -79,25 +80,34 @@ open class OWM {
       }
 
       field = value
+
+      retrofit4history = createRetrofit4HistoryInstance(proxy)
+      retrofit4others = createRetrofit4OthersInstance(proxy)
+      retrofit4pollution = createRetrofit4PollutionInstance(proxy)
+      retrofit4weather = createRetrofit4WeatherInstance(proxy)
     }
 
   var language: OWM.Language = OWM.Language.ENGLISH
     set(value) {
       field = value
+
       retrofit4weather = createRetrofit4WeatherInstance(proxy)
     }
 
   var proxy: Proxy = SystemTools.getSystemProxy()
     set(value) {
       field = value
+
+      retrofit4history = createRetrofit4HistoryInstance(proxy)
+      retrofit4others = createRetrofit4OthersInstance(proxy)
+      retrofit4pollution = createRetrofit4PollutionInstance(proxy)
       retrofit4weather = createRetrofit4WeatherInstance(proxy)
     }
 
   var unit: OWM.Unit = OWM.Unit.STANDARD
     set(value) {
       field = value
-      retrofit4others = createRetrofit4OthersInstance(proxy)
-      retrofit4pollution = createRetrofit4PollutionInstance(proxy)
+
       retrofit4weather = createRetrofit4WeatherInstance(proxy)
     }
 
@@ -133,8 +143,9 @@ open class OWM {
    * @param pass Password for the proxy
    */
   fun setProxy(proxy: Proxy, user: String, pass: String): OWM {
-    this.proxy = proxy
     SystemTools.setProxyAuthDetails(user, pass)
+
+    this.proxy = proxy
 
     return this
   }
@@ -160,6 +171,7 @@ open class OWM {
    */
   fun setProxy(host: String, port: Int, type: Proxy.Type): OWM {
     proxy = Proxy(type, InetSocketAddress(host, port))
+
     this.proxy = proxy
 
     return this
@@ -189,8 +201,9 @@ open class OWM {
    * @param type Type of the proxy
    */
   fun setProxy(host: String, port: Int, user: String, pass: String, type: Proxy.Type): OWM {
-    setProxy(host, port, type)
     SystemTools.setProxyAuthDetails(user, pass)
+
+    setProxy(host, port, type)
 
     return this
   }
@@ -207,9 +220,12 @@ open class OWM {
   /**
    * Reset proxy to system's proxy for getting data from OpenWeatherMap.org
    */
-  fun resetProxy() {
-    this.proxy = SystemTools.getSystemProxy()
+  fun resetProxy(): OWM {
     SystemTools.setProxyAuthDetails("", "")
+
+    this.proxy = SystemTools.getSystemProxy()
+
+    return this
   }
 
   @Throws(APIException::class)
