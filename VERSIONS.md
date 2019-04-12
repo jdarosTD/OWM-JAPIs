@@ -2,6 +2,18 @@
 ###2.5 (Compatible with OpenWeatherMap.org's API v2.5)
 
 
+####2.5.3.0
+
+**Major version**
+
+1. Migrated the function calls to OWM Pro APIs from OWM -> OWMPro class
+2. Added the support for getting accumulated precipitation and temperature
+3. Improved the support for getting historical weather data from OWM APIs
+4. Requires Java 7 and supports Android, Kotlin, and Java (as of v2.5.1.0)
+
+NOTE: Please MIGRATE the function calls to OWM Pro APIs from OWM to OWMPro.
+
+
 ####2.5.2.3
 
 **Minor version**

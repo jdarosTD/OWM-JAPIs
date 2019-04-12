@@ -2,7 +2,7 @@
 
 ####Java Library for OpenWeatherMap.org Weather APIs
 
-OWM JAPIs lets you develop weather-aware applications for **Java, Android, and Kotlin** platforms in minimum time. It is an easy-to-use, well-documented wrapper library for OpenWeatherMap.org's Weather APIs. You can easily **retrieve and use weather data** in your applications using this library.
+OWM JAPIs lets you develop weather-aware applications for **Android, Kotlin, and Java** platforms in minimum time. It is an easy-to-use, well-documented wrapper library for OpenWeatherMap.org's Weather APIs. You can easily **retrieve and use weather data** in your applications using this library.
 
 OWM JAPIs allows you to **fetch weather data in only 3-5 lines of code**. You can develop applications and services for multiple platforms using this library, such as Windows, Mac OS X, Linux, and Android.
 
@@ -34,45 +34,16 @@ No? Not an issue. You can download the releases (source and binaries) from [OWM 
 ###2.5 (Compatible with OpenWeatherMap.org's API v2.5)
 
 
-####2.5.2.3
-
-**Minor version**
-
-1. Fixed all reported bugs
-
-
-####2.5.2.2
-
-**Minor version**
-
-1. Fixed all reported bugs
-2. Improved codebase per Kotlin's standards
-
-
-####2.5.2.1
-
-**Minor version**
-
-1. Added support for retrieving weather condition details
-
-
-####2.5.2.0
+####2.5.3.0
 
 **Major version**
 
-1. Added support for retrieving Air Pollution and UV Index
-2. Fixed dependency bugs and improved support for Maven Central
-3. Supports retrieving Current Weather, Hourly Forecast, and Daily Forecast as well
-4. Requires min. Java 1.7 platform and supports Java, Kotlin, and Android (as of v2.5.1.0)
+1. Migrated the function calls to OWM Pro APIs from OWM -> OWMPro class
+2. Added the support for getting accumulated precipitation and temperature
+3. Improved the support for getting historical weather data from OWM APIs
+4. Requires Java 7 and supports Android, Kotlin, and Java (as of v2.5.1.0)
 
-
-####2.5.1.0
-
-**Major version**
-
-1. Re-wrote whole lib. in Kotlin
-2. Supports retrieving Current Weather, Hourly Forecast, and Daily Forecast
-3. Requires min. Java 1.7 platform and supports Java, Kotlin, and Android now
+NOTE: Please MIGRATE the function calls to OWM Pro APIs from OWM to OWMPro.
 
 
 
@@ -190,7 +161,7 @@ Kindly post bugs or feature requests at [OWM JAPIs Issues](http://go.aksingh.net
 ##Developer
 **Ashutosh Kumar Singh** | [www.aksingh.net](https://www.aksingh.net/) | [ashutosh@aksingh.net](mailto:ashutosh@aksingh.net)
 
-and contributors. Do you wish to contribute? Just fork this repo on GitHub or BitBucket and send a pull request.
+and contributors. Do you wish to contribute? Just fork this repo on BitBucket or GitHub and send a pull request.
 
 
 ##Credits
@@ -200,8 +171,8 @@ for providing free weather data and creating easy-to-use APIs.
 2. [ForecastIO-Lib-Java](https://github.com/dvdme/forecastio-lib-java)
 for providing ideas like support for third-party Http libraries.
 
-3. [You, for supporting OWM JAPIs](https://code.aksingh.net/owm-japis/issues)
-and for reporting bugs, and even finding and sharing possible solutions for them.
+3. [You - for supporting OWM JAPIs](http://go.aksingh.net/owm-japis-bugs)
+and reporting bugs, and finding and sharing solutions for them too.
 
 
 
