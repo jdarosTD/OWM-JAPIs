@@ -50,6 +50,7 @@ import java.util.*
 class OWMPro : OWM {
 
   companion object {
+    private val OWM_FREE_V25_BASE_URL: String = "https://api.openweathermap.org/data/2.5/"
     private val OWM_PRO_V25_BASE_URL: String = "https://pro.openweathermap.org/data/2.5/"
     private val OWM_PRO_V25_DAILY_WEATHER_FORECAST_MAX_COUNT: Int = 16
     private val OWM_PRO_V25_HISTORICAL_WEATHER_DEFAULT_COUNT: Int = 1
@@ -69,7 +70,7 @@ class OWMPro : OWM {
    *
    * @param apiKey API key (pro) from OpenWeatherMap.org
    */
-  constructor(apiKey: String) : super(apiKey, OWM_PRO_V25_BASE_URL)
+  constructor(apiKey: String) : super(apiKey, OWM_FREE_V25_BASE_URL) // OWM_PRO_V25_BASE_URL
 
   @Throws(APIException::class)
   fun accumulatedPrecipitationByCityId(cityId: Int, startTime: Long, endTime: Long): AccumulatedWeatherList {

@@ -51,6 +51,12 @@ data class WeatherData(
   @field:SerializedName("sys")
   val systemData: System? = null,
 
+  @field:SerializedName("rain")
+  val rainData: Rain? = null,
+
+  @field:SerializedName("snow")
+  val snowData: Snow? = null,
+
   @field:SerializedName("dt_txt")
   val dateTimeText: String? = null
 ) {

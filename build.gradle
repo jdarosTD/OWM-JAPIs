@@ -22,12 +22,12 @@ apply plugin: "kotlin"
 apply plugin: "org.jetbrains.dokka"
 
 apply plugin: "maven"
-apply plugin: "signing"
+//apply plugin: "signing"
 
 sourceCompatibility = 1.8
 
-group = "net.aksingh"
-archivesBaseName = "owm-japis"
+group = "com.telecomdesign"
+archivesBaseName = "owm-api"
 version = "2.5.3.0"
 
 repositories {
@@ -90,23 +90,23 @@ task dokkaJavadocJar(type: Jar, dependsOn: "deleteUnusedJavadocAssets") {
 artifacts {
   archives dokkaJavadocJar, sourcesJar
 }
-
-signing {
-  sign configurations.archives
-}
+//
+//signing {
+//  sign configurations.archives
+//}
 
 uploadArchives {
   repositories {
     mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+//      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
+//      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+//        authentication(userName: ossrhUsername, password: ossrhPassword)
+//      }
+//
+//      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+//        authentication(userName: ossrhUsername, password: ossrhPassword)
+//      }
 
       pom.project {
         name "OWM JAPIs"
@@ -152,4 +152,21 @@ buildscript {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
   }
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            if (project.version.endsWith('-SNAPSHOT')) {
+                repository(url: "https://nexus.insgroup.fr/repository/insgroup_snapshot") {
+                    authentication(userName: jenkinsUsername, password: jenkinsPassword)
+                }
+            } else {
+                repository(url: "https://nexus.insgroup.fr/repository/insgroup_release") {
+                    authentication(userName: jenkinsUsername, password: jenkinsPassword)
+                }
+            }
+        }
+    }
 }
