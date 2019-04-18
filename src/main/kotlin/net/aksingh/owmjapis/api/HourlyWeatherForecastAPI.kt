@@ -26,24 +26,28 @@ import retrofit2.http.Query
 
 interface HourlyWeatherForecastAPI {
 
-  @GET("forecast")
+
+  @GET("forecast/hourly")
   fun getHourlyWeatherForecastByCityName(
     @Query("q") name: String
   ): Call<HourlyWeatherForecast>
 
-  @GET("forecast")
+  @GET("forecast/hourly")
   fun getHourlyWeatherForecastByCityId(
     @Query("id") id: Int
   ): Call<HourlyWeatherForecast>
 
-  @GET("forecast")
+  @GET("forecast/hourly")
   fun getHourlyWeatherForecastByCoords(
     @Query("lat") lat: Double,
     @Query("lon") lon: Double
   ): Call<HourlyWeatherForecast>
 
-  @GET("forecast")
+  @GET("forecast/hourly")
   fun getHourlyWeatherForecastByZipCode(
     @Query("zip") zip: String
   ): Call<HourlyWeatherForecast>
+
 }
+
+

@@ -28,7 +28,7 @@ sourceCompatibility = 1.8
 
 group = "com.telecomdesign"
 archivesBaseName = "owm-api"
-version = "2.5.3.0"
+version = "2.5.4"
 
 repositories {
   mavenCentral()

@@ -404,6 +404,103 @@ open class OWM {
     return forecast
   }
 
+
+
+
+  /**************************************/
+
+
+
+  @Throws(APIException::class)
+  fun fiveDaysHourlyWeatherForecastByCityName(cityNameWithCountryCode: String): HourlyWeatherForecast {
+    val api = retrofit4weather.create(FiveDaysHourlyWeatherForecastAPI::class.java)
+
+    val apiCall = api.getHourlyWeatherForecastByCityName(cityNameWithCountryCode)
+    val apiResp = apiCall.execute()
+    var forecast = apiResp.body()
+
+    if (forecast == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      forecast = HourlyWeatherForecast()
+    }
+
+    return forecast
+  }
+
+  @Throws(APIException::class)
+  fun fiveDaysHourlyWeatherForecastByCityName(cityName: String, countryCode: OWM.Country): HourlyWeatherForecast {
+    return fiveDaysHourlyWeatherForecastByCityName(cityName + "," + countryCode.value)
+  }
+
+  @Throws(APIException::class)
+  fun fiveDaysHourlyWeatherForecastByCityId(cityId: Int): HourlyWeatherForecast {
+    val api = retrofit4weather.create(FiveDaysHourlyWeatherForecastAPI::class.java)
+
+    val apiCall = api.getHourlyWeatherForecastByCityId(cityId)
+    val apiResp = apiCall.execute()
+    var forecast = apiResp.body()
+
+    if (forecast == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      forecast = HourlyWeatherForecast()
+    }
+
+    return forecast
+  }
+
+  @Throws(APIException::class)
+  fun fiveDaysHourlyWeatherForecastByCoords(latitude: Double, longitude: Double): HourlyWeatherForecast {
+    val api = retrofit4weather.create(FiveDaysHourlyWeatherForecastAPI::class.java)
+
+    val apiCall = api.getHourlyWeatherForecastByCoords(latitude, longitude)
+    val apiResp = apiCall.execute()
+    var forecast = apiResp.body()
+
+    if (forecast == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      forecast = HourlyWeatherForecast()
+    }
+
+    return forecast
+  }
+
+  @Throws(APIException::class)
+  fun fiveDaysHourlyWeatherForecastByZipCode(zipCode: Int): HourlyWeatherForecast {
+    return fiveDaysHourlyWeatherForecastByZipCode(zipCode, OWM.Country.UNITED_STATES)
+  }
+
+  @Throws(APIException::class)
+  fun fiveDaysHourlyWeatherForecastByZipCode(zipCode: Int, countryCode: OWM.Country): HourlyWeatherForecast {
+    val api = retrofit4weather.create(FiveDaysHourlyWeatherForecastAPI::class.java)
+
+    val apiCall = api.getHourlyWeatherForecastByZipCode(zipCode.toString() + "," + countryCode.value)
+    val apiResp = apiCall.execute()
+    var forecast = apiResp.body()
+
+    if (forecast == null) {
+      if (!apiResp.isSuccessful) {
+        throw APIException(apiResp.code(), apiResp.message())
+      }
+
+      forecast = HourlyWeatherForecast()
+    }
+
+    return forecast
+  }
+
+
+  /******/
+
+
   @Throws(APIException::class)
   fun currentUVIndexByCoords(latitude: Double, longitude: Double): CurrentUVIndex {
     val api = retrofit4others.create(CurrentUVIndexAPI::class.java)
